@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     // Guard field
     protected $guarded = ['user_id', 'user_uuid'];
@@ -49,15 +50,15 @@ class User extends Authenticatable
         });
     }
 
-    // public function canAccessPanel(Panel $panel): bool
-    // {
-    //     $panel_id = $panel->getId();
-    //     if ($panel_id === 'admin') {
-    //         return $this->is_admin == 1;
-    //     } else {
-    //         return false;
-    //     }
-    // }
+    public function canAccessPanel(Panel $panel): bool
+    {
+        $panel_id = $panel->getId();
+        if ($panel_id === 'admin') {
+            return $this->is_admin == 1;
+        } else {
+            return false;
+        }
+    }
 
     // Relationship
     public function department(): BelongsTo
