@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,14 +17,23 @@ class Suggestion extends Model
         'updated_at'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($suggestion) {
+            $suggestion->suggestion_uuid = (string) Str::uuid();
+        });
+    }
+
     // Relationship
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function department(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Category::class);
     }
 }

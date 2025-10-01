@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id('project_id');
-            $table->uuid('project_uuid');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
+            $table->uuid('project_uuid')->unique();
+            $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories', 'category_id')->nullOnDelete();
             $table->string('project_title');
             $table->text('project_description');
             $table->text('project_technology');
+            $table->integer('project_duration');
             $table->timestamps();
         });
     }

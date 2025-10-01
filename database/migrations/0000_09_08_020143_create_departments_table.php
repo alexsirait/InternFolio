@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('photos', function (Blueprint $table) {
-            $table->id('photo_id');
-            $table->uuid('photo_uuid')->unique();
-            $table->foreignId('project_id')->constrained('projects', 'project_id')->cascadeOnDelete();
-            $table->string('photo_url');
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id('department_id');
+            $table->uuid('department_uuid')->unique();
+            $table->string('department_code')->unique();
+            $table->string('department_name');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('departments');
     }
 };

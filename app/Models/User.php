@@ -6,11 +6,13 @@ namespace App\Models;
 
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -38,6 +40,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->user_uuid = (string) Str::uuid();
+        });
+    }
+
     // public function canAccessPanel(Panel $panel): bool
     // {
     //     $panel_id = $panel->getId();
@@ -57,11 +68,6 @@ class User extends Authenticatable
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
-    }
-
-    public function photos(): HasMany
-    {
-        return $this->hasMany(Photo::class);
     }
 
     public function suggestions(): HasMany

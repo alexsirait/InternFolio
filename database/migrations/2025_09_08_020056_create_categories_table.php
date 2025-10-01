@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->id('department_id');
-            $table->uuid('department_uuid');
-            $table->string('department_name');
-            $table->string('department_code');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id('category_id');
+            $table->uuid('category_uuid')->unique();
+            $table->enum('category_type', ['Project', 'Suggestion']);
+            $table->string('category_name');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('categories');
     }
 };

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('user_id');
-            $table->uuid('user_uuid');
-            $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
+            $table->uuid('user_uuid')->unique();
+            $table->foreignId('department_id')->nullable()->constrained('departments', 'department_id')->nullOnDelete();
             $table->string('user_name');
-            $table->string('user_badge');
+            $table->string('user_badge')->unique();
             $table->date('join_date');
             $table->date('end_date');
             $table->string('user_image')->nullable();

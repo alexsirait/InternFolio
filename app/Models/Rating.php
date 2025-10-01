@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,6 +16,15 @@ class Rating extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($rating) {
+            $rating->rating_uuid = (string) Str::uuid();
+        });
+    }
 
     // Relationship
     public function user(): BelongsTo
