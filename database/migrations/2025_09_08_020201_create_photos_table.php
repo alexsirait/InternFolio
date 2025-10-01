@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id('photo_id');
-            $table->uuid('photo_uuid');
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->uuid('photo_uuid')->unique();
+            $table->foreignId('project_id')->constrained('projects', 'project_id')->cascadeOnDelete();
             $table->string('photo_url');
             $table->timestamps();
         });

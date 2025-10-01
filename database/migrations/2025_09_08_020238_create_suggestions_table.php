@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id('suggestion_id');
-            $table->uuid('suggestion_uuid');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
+            $table->uuid('suggestion_uuid')->unique();
+            $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories', 'category_id')->nullOnDelete();
             $table->string('suggestion_title');
             $table->text('suggestion_description');
             $table->timestamps();
