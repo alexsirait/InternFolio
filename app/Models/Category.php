@@ -20,6 +20,11 @@ class Category extends Model
         'updated_at'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'category_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

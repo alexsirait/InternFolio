@@ -11,11 +11,11 @@ class DepartmentForm
     {
         return $schema
             ->components([
-                TextInput::make('department_uuid')
-                    ->required(),
                 TextInput::make('department_code')
+                    ->label('Kode Department')
                     ->required(),
                 TextInput::make('department_name')
+                    ->label('Nama Department')
                     ->required(),
             ]);
     }

@@ -20,6 +20,11 @@ class Photo extends Model
         'updated_at'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'photo_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -15,11 +15,11 @@ class DepartmentsTable
     {
         return $table
             ->columns([
-                TextColumn::make('department_uuid')
-                    ->searchable(),
                 TextColumn::make('department_code')
+                    ->label('Kode Department')
                     ->searchable(),
                 TextColumn::make('department_name')
+                    ->label('Nama Department')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

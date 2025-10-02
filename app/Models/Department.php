@@ -14,6 +14,11 @@ class Department extends Model
     // Guard field
     protected $guarded = ['department_id', 'department_uuid'];
 
+    public function getRouteKeyName()
+    {
+        return 'department_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

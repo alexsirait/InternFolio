@@ -50,6 +50,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->user_name;
     }
 
+    public function getRouteKeyName()
+    {
+        return 'user_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

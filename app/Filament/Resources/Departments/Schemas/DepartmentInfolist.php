@@ -11,14 +11,19 @@ class DepartmentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('department_uuid'),
-                TextEntry::make('department_code'),
-                TextEntry::make('department_name'),
+                TextEntry::make('department_code')
+                    ->label('Kode Department'),
                 TextEntry::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat pada')
+                    ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
+                TextEntry::make('department_name')
+                    ->label('Nama Department'),
                 TextEntry::make('updated_at')
-                    ->dateTime()
+                    ->label('Terakhir diperbarui')
+                    ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
             ]);
     }

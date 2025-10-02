@@ -20,6 +20,11 @@ class Rating extends Model
         'updated_at'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'rating_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

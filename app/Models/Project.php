@@ -21,6 +21,11 @@ class Project extends Model
         'updated_at'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'project_uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();

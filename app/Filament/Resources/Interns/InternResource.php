@@ -9,7 +9,7 @@ use App\Filament\Resources\Interns\Pages\ViewIntern;
 use App\Filament\Resources\Interns\Schemas\InternForm;
 use App\Filament\Resources\Interns\Schemas\InternInfolist;
 use App\Filament\Resources\Interns\Tables\InternsTable;
-use App\Models\Intern;
+use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -20,9 +20,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InternResource extends Resource
 {
-    protected static ?string $model = Intern::class;
+    protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $modelLabel = 'Intern';
 
     public static function form(Schema $schema): Schema
     {
@@ -62,5 +64,10 @@ class InternResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('is_admin', 0);
     }
 }
