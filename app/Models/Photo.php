@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Photo extends Model
 {
+    // Set primary key
+    protected $primaryKey = 'photo_id';
+
     // Guard field
     protected $guarded = ['photo_id', 'photo_uuid'];
 

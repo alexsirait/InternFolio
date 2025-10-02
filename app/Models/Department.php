@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
 {
+    // Set primary key
+    protected $primaryKey = 'department_id';
+
     // Guard field
     protected $guarded = ['department_id', 'department_uuid'];
 

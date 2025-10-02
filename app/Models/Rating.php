@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rating extends Model
 {
+    // Set primary key
+    protected $primaryKey = 'rating_id';
+
     // Guard field
     protected $guarded = ['rating_id', 'rating_uuid'];
 

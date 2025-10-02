@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
+    // Set primary key
+    protected $primaryKey = 'project_id';
+
     // Guard field
     protected $guarded = ['project_id', 'project_uuid'];
 

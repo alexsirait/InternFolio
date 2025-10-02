@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Suggestion extends Model
 {
+    // Set primary key
+    protected $primaryKey = 'suggestion_id';
+
     // Guard field
     protected $guarded = ['suggestion_id', 'suggestion_uuid'];
 
