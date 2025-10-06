@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('join_date');
             $table->date('end_date');
             $table->string('user_image')->nullable();
-            $table->string('position');
-            $table->string('school');
+            $table->string('position')->nullable();
+            $table->string('school')->nullable();
             $table->string('major')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('instagram_url')->nullable();
