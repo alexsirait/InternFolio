@@ -68,6 +68,6 @@ class InternResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('is_admin', 0);
+        return parent::getEloquentQuery()->where('is_admin', 0)->with(['department']);
     }
 }

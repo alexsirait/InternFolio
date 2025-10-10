@@ -38,7 +38,7 @@ class Project extends Model
     // Relationship
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function photos(): HasMany
@@ -48,6 +48,6 @@ class Project extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

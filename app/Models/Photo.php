@@ -37,6 +37,6 @@ class Photo extends Model
     // Relationship
     public function project(): BelongsTo
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 }
