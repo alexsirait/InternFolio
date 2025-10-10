@@ -33,7 +33,9 @@ class InternForm
                     ->noSearchResultsMessage('Tidak ada department yang sesuai!')
                     ->searchPrompt('Cari berdasarkan kode atau nama'),
                 FileUpload::make('user_image')
-                    ->image(),
+                    ->image()
+                    ->directory('intern')
+                    ->visibility('public'),
                 TextInput::make('user_name')
                     ->label('Nama Intern')
                     ->required(),
