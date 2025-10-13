@@ -41,6 +41,11 @@ class AdminPanelProvider extends PanelProvider
                 // 'gray' => Color::Gray,
             ])
             ->font('Poppins', provider: GoogleFontProvider::class)
+            ->brandName('InternFolio')
+            ->brandLogo(asset('image/logo.png'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('image/logo.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

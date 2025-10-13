@@ -1,28 +1,31 @@
 <?php
 
-namespace App\Filament\Resources\Departments\Tables;
+namespace App\Filament\Resources\Categories\Tables;
 
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Actions\DeleteAction;
-use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
-class DepartmentsTable
+class CategoriesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('department_code')
-                    ->label('Kode Department')
+                TextColumn::make('category_name')
+                    ->label('Kategori')
                     ->searchable(),
-                TextColumn::make('department_name')
-                    ->label('Nama Department')
-                    ->searchable(),
+                TextColumn::make('category_type')
+                    ->label('Tipe')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Project' => 'success',
+                        'Suggestion' => 'info',
+                    }),
                 TextColumn::make('created_at')
                     ->isoDateTime()
                     ->sortable()
@@ -36,8 +39,6 @@ class DepartmentsTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()
-                    ->color(Color::Blue),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
