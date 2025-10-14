@@ -21,6 +21,8 @@ class InternsTable
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('user_name')
                     ->label('Nama Intern')
                     ->searchable()

@@ -82,16 +82,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function projects(): HasMany
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Project::class, 'user_id');
     }
 
     public function suggestions(): HasMany
     {
-        return $this->hasMany(Suggestion::class);
+        return $this->hasMany(Suggestion::class, 'user_id');
     }
 
     public function rating(): HasOne
     {
-        return $this->hasOne(Rating::class);
+        return $this->hasOne(Rating::class, 'user_id');
     }
 }

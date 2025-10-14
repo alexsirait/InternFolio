@@ -17,6 +17,8 @@ class DepartmentsTable
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('department_code')
                     ->label('Kode Department')
                     ->searchable(),
