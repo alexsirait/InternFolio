@@ -2,10 +2,12 @@
 
 namespace App\Filament\Intern\Resources\Projects\Schemas;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
+use App\Models\Category;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 
 class ProjectForm
 {
@@ -13,24 +15,44 @@ class ProjectForm
     {
         return $schema
             ->components([
-                TextInput::make('project_uuid')
-                    ->required(),
-                Select::make('user_id')
-                    ->relationship('user', 'user_id')
-                    ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'category_id'),
+                    ->label('Kategori')
+                    ->required()
+                    ->options(Category::query()->where('category_type', 'Project')->pluck('category_name', 'category_id'))
+                    ->native(false)
+                    ->searchable(),
                 TextInput::make('project_title')
+                    ->label('Judul Project')
                     ->required(),
                 Textarea::make('project_description')
+                    ->label('Deskripsi Project')
                     ->required()
-                    ->columnSpanFull(),
-                Textarea::make('project_technology')
+                    ->columnSpanFull()
+                    ->autosize(),
+                TagsInput::make('project_technology')
+                    ->label('Teknologi yang digunakan')
                     ->required()
-                    ->columnSpanFull(),
+                    ->trim()
+                    ->color('warning')
+                    ->separator(',')
+                    ->reorderable()
+                    ->suggestions([
+                        'TailwindCSS',
+                        'PHP',
+                        'Laravel',
+                        'Livewire',
+                        'Javascript',
+                        'Python',
+                        'Ruby',
+                        'Elixir',
+                    ]),
                 TextInput::make('project_duration')
+                    ->label('Lama Pengerjaan')
                     ->required()
-                    ->numeric(),
+                    ->suffix('Bulan')
+                    ->minValue(0)
+                    ->maxValue(60)
+                    ->integer(),
             ]);
     }
 }

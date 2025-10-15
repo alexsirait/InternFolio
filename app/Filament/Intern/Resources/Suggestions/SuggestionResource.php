@@ -2,25 +2,27 @@
 
 namespace App\Filament\Intern\Resources\Suggestions;
 
-use App\Filament\Intern\Resources\Suggestions\Pages\CreateSuggestion;
-use App\Filament\Intern\Resources\Suggestions\Pages\EditSuggestion;
-use App\Filament\Intern\Resources\Suggestions\Pages\ListSuggestions;
-use App\Filament\Intern\Resources\Suggestions\Pages\ViewSuggestion;
-use App\Filament\Intern\Resources\Suggestions\Schemas\SuggestionForm;
-use App\Filament\Intern\Resources\Suggestions\Schemas\SuggestionInfolist;
-use App\Filament\Intern\Resources\Suggestions\Tables\SuggestionsTable;
-use App\Models\Suggestion;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Suggestion;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Intern\Resources\Suggestions\Pages\EditSuggestion;
+use App\Filament\Intern\Resources\Suggestions\Pages\ViewSuggestion;
+use App\Filament\Intern\Resources\Suggestions\Pages\ListSuggestions;
+use App\Filament\Intern\Resources\Suggestions\Pages\CreateSuggestion;
+use App\Filament\Intern\Resources\Suggestions\Schemas\SuggestionForm;
+use App\Filament\Intern\Resources\Suggestions\Tables\SuggestionsTable;
+use App\Filament\Intern\Resources\Suggestions\Schemas\SuggestionInfolist;
 
 class SuggestionResource extends Resource
 {
     protected static ?string $model = Suggestion::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleOvalLeftEllipsis;
 
     public static function form(Schema $schema): Schema
     {
@@ -52,5 +54,12 @@ class SuggestionResource extends Resource
             'view' => ViewSuggestion::route('/{record}'),
             'edit' => EditSuggestion::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $userId = Auth::id();
+
+        return parent::getEloquentQuery()->where('user_id', $userId);
     }
 }

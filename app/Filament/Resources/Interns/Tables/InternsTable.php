@@ -25,6 +25,7 @@ class InternsTable
                     ->rowIndex(),
                 TextColumn::make('user_name')
                     ->label('Nama Intern')
+                    ->sortable()
                     ->searchable()
                     ->formatStateUsing(function ($record) {
                         $badge = $record->user_badge;
@@ -58,10 +59,12 @@ class InternsTable
                     ->label('Tanggal Berakhir')
                     ->date('l, d F Y'),
                 TextColumn::make('created_at')
+                    ->label('Dibuat pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Diubah pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

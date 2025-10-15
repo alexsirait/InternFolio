@@ -2,24 +2,25 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\InternGrowthStats;
-use Filament\FontProviders\GoogleFontProvider;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\InternGrowthStats;
+use Filament\FontProviders\GoogleFontProvider;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -34,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
-                // 'primary' => Color::Amber,
+                'primary' => Color::Blue,
                 // 'secondary' => Color::Purple,
                 // 'success' => Color::Green,
                 // 'warning' => Color::Yellow,
@@ -46,6 +47,9 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('image/logo.png'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('image/logo.png'))
+            ->maxContentWidth(Width::Full)
+            ->simplePageMaxContentWidth(Width::Small)
+            ->unsavedChangesAlerts()
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

@@ -21,9 +21,11 @@ class DepartmentsTable
                     ->rowIndex(),
                 TextColumn::make('department_code')
                     ->label('Kode Department')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('department_name')
                     ->label('Nama Department')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->isoDateTime()

@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\Categories\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
+use App\Models\Category;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Tables\Filters\Filter;
+use Filament\Actions\BulkActionGroup;
+use Filament\Forms\Components\Select;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
 
 class CategoriesTable
 {
@@ -19,6 +23,7 @@ class CategoriesTable
                     ->rowIndex(),
                 TextColumn::make('category_name')
                     ->label('Kategori')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('category_type')
                     ->label('Tipe')
@@ -29,16 +34,34 @@ class CategoriesTable
                         'Suggestion' => 'info',
                     }),
                 TextColumn::make('created_at')
+                    ->label('Dibuat pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Diubah pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('category_type')
+                    ->schema([
+                        Select::make('category_type')
+                            ->label('Kategori')
+                            ->options([
+                                'Project' => 'Project',
+                                'Suggestion' => 'Suggestion'
+                            ])
+                            ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['category_type'],
+                                fn(Builder $query, $data): Builder => $query->where('category_type', $data),
+                            );
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),

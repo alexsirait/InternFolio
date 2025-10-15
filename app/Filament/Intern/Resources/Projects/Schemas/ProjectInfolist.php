@@ -11,24 +11,29 @@ class ProjectInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('project_uuid'),
-                TextEntry::make('user.user_id')
-                    ->label('User'),
-                TextEntry::make('category.category_id')
-                    ->label('Category')
+                TextEntry::make('category.category_name')
+                    ->label('Kategori')
                     ->placeholder('-'),
-                TextEntry::make('project_title'),
+                TextEntry::make('project_title')
+                    ->label('Judul Project'),
                 TextEntry::make('project_description')
+                    ->label('Deskripsi Project')
                     ->columnSpanFull(),
                 TextEntry::make('project_technology')
-                    ->columnSpanFull(),
+                    ->badge()
+                    ->color('warning')
+                    ->separator(','),
                 TextEntry::make('project_duration')
+                    ->label('Durasi')
+                    ->suffix(' Bulan')
                     ->numeric(),
                 TextEntry::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat pada')
+                    ->isoDateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->dateTime()
+                    ->label('Diubah pada')
+                    ->isoDateTime()
                     ->placeholder('-'),
             ]);
     }
