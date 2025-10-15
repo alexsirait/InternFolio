@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Interns\Schemas;
 
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\TextEntry;
 
 class InternInfolist
 {
@@ -10,7 +11,8 @@ class InternInfolist
     {
         return $schema
             ->components([
-                //
+                TextEntry::make('department_code')
+                    ->label('Kode Department'),
             ]);
     }
 }

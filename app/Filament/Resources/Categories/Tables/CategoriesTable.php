@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Filament\Intern\Resources\Suggestions\Tables;
+namespace App\Filament\Resources\Categories\Tables;
 
 use App\Models\Category;
-use App\Models\Suggestion;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 
-class SuggestionsTable
+class CategoriesTable
 {
     public static function configure(Table $table): Table
     {
@@ -23,34 +21,18 @@ class SuggestionsTable
             ->columns([
                 TextColumn::make('No')
                     ->rowIndex(),
-                TextColumn::make('suggestion_title')
-                    ->label('Judul')
-                    ->description(fn(Suggestion $record): string => $record->suggestion_description)
-                    ->searchable(),
-                TextColumn::make('category.category_name')
+                TextColumn::make('category_name')
                     ->label('Kategori')
                     ->sortable()
+                    ->searchable(),
+                TextColumn::make('category_type')
+                    ->label('Tipe')
+                    ->sortable()
                     ->badge()
-                    ->color(
-                        function (string $state): string {
-                            $availableColors = [
-                                'primary',
-                                'success',
-                                'warning',
-                                'danger',
-                                'info',
-                                'gray',
-                            ];
-
-                            $hash = md5($state);
-
-                            $numericHash = hexdec(substr($hash, 0, 8));
-
-                            $index = $numericHash % count($availableColors);
-
-                            return $availableColors[$index];
-                        }
-                    ),
+                    ->color(fn(string $state): string => match ($state) {
+                        'Project' => 'success',
+                        'Suggestion' => 'info',
+                    }),
                 TextColumn::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()
@@ -63,23 +45,25 @@ class SuggestionsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Filter::make('category_id')
+                Filter::make('category_type')
                     ->schema([
-                        Select::make('category_id')
+                        Select::make('category_type')
                             ->label('Kategori')
-                            ->options(Category::where('category_type', 'Suggestion')->pluck('category_name', 'category_id'))
-                            ->searchable(),
+                            ->options([
+                                'Project' => 'Project',
+                                'Suggestion' => 'Suggestion'
+                            ])
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['category_id'],
-                                fn(Builder $query, $data): Builder => $query->where('category_id', $data),
+                                $data['category_type'],
+                                fn(Builder $query, $data): Builder => $query->where('category_type', $data),
                             );
                     }),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

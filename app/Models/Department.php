@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Department extends Model
 {
@@ -31,6 +32,11 @@ class Department extends Model
     // Relationship
     public function users(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'department_id');
+    }
+
+    public function projects(): HasManyThrough
+    {
+        return $this->hasManyThrough(Project::class, User::class, 'department_id', 'user_id',);
     }
 }

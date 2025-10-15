@@ -2,12 +2,18 @@
 
 namespace App\Filament\Intern\Resources\Projects\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use App\Models\Project;
+use App\Models\Category;
+use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Tables\Filters\Filter;
+use Filament\Actions\BulkActionGroup;
+use Filament\Forms\Components\Select;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectsTable
 {
@@ -15,32 +21,67 @@ class ProjectsTable
     {
         return $table
             ->columns([
-                TextColumn::make('project_uuid')
-                    ->searchable(),
-                TextColumn::make('user.user_id')
-                    ->searchable(),
-                TextColumn::make('category.category_id')
-                    ->searchable(),
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('project_title')
+                    ->label('Judul')
+                    ->description(fn(Project $record): string => $record->project_description)
                     ->searchable(),
-                TextColumn::make('project_duration')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('category.category_name')
+                    ->label('Kategori')
+                    ->sortable()
+                    ->badge()
+                    ->color(
+                        function (string $state): string {
+                            $availableColors = [
+                                'primary',
+                                'success',
+                                'warning',
+                                'danger',
+                                'info',
+                                'gray',
+                            ];
+
+                            $hash = md5($state);
+
+                            $numericHash = hexdec(substr($hash, 0, 8));
+
+                            $index = $numericHash % count($availableColors);
+
+                            return $availableColors[$index];
+                        }
+                    ),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat pada')
+                    ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Diubah pada')
+                    ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('category_id')
+                    ->schema([
+                        Select::make('category_id')
+                            ->label('Kategori')
+                            ->options(Category::where('category_type', 'Project')->pluck('category_name', 'category_id'))
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['category_id'],
+                                fn(Builder $query, $data): Builder => $query->where('category_id', $data),
+                            );
+                    }),
             ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

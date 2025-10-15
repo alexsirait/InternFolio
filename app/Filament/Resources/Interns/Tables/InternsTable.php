@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Interns\Tables;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
@@ -19,8 +21,11 @@ class InternsTable
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('user_name')
                     ->label('Nama Intern')
+                    ->sortable()
                     ->searchable()
                     ->formatStateUsing(function ($record) {
                         $badge = $record->user_badge;
@@ -54,11 +59,13 @@ class InternsTable
                     ->label('Tanggal Berakhir')
                     ->date('l, d F Y'),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat pada')
+                    ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Diubah pada')
+                    ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -66,8 +73,10 @@ class InternsTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->color(Color::Blue),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

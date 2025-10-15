@@ -11,20 +11,21 @@ class SuggestionInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('suggestion_uuid'),
-                TextEntry::make('user.user_id')
-                    ->label('User'),
-                TextEntry::make('category.category_id')
-                    ->label('Category')
+                TextEntry::make('category.category_name')
+                    ->label('Kategori')
                     ->placeholder('-'),
-                TextEntry::make('suggestion_title'),
+                TextEntry::make('suggestion_title')
+                    ->label('Judul'),
                 TextEntry::make('suggestion_description')
+                    ->label('Deskripsi')
                     ->columnSpanFull(),
                 TextEntry::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat pada')
+                    ->isoDateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->dateTime()
+                    ->label('Diubah pada')
+                    ->isoDateTime()
                     ->placeholder('-'),
             ]);
     }

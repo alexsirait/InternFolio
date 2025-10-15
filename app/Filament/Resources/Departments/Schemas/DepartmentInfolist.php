@@ -13,15 +13,15 @@ class DepartmentInfolist
             ->components([
                 TextEntry::make('department_code')
                     ->label('Kode Department'),
+                TextEntry::make('department_name')
+                    ->label('Nama Department'),
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()
                     ->sinceTooltip()
                     ->placeholder('-'),
-                TextEntry::make('department_name')
-                    ->label('Nama Department'),
                 TextEntry::make('updated_at')
-                    ->label('Terakhir diperbarui')
+                    ->label('Diubah pada')
                     ->isoDateTime()
                     ->sinceTooltip()
                     ->placeholder('-'),

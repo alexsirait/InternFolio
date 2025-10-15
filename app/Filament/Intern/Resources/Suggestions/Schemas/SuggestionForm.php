@@ -2,10 +2,11 @@
 
 namespace App\Filament\Intern\Resources\Suggestions\Schemas;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
+use App\Models\Category;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 
 class SuggestionForm
 {
@@ -13,18 +14,20 @@ class SuggestionForm
     {
         return $schema
             ->components([
-                TextInput::make('suggestion_uuid')
-                    ->required(),
-                Select::make('user_id')
-                    ->relationship('user', 'user_id')
-                    ->required(),
                 Select::make('category_id')
-                    ->relationship('category', 'category_id'),
+                    ->label('Kategori')
+                    ->required()
+                    ->options(Category::query()->where('category_type', 'Suggestion')->pluck('category_name', 'category_id'))
+                    ->native(false)
+                    ->searchable(),
                 TextInput::make('suggestion_title')
+                    ->label('Judul')
                     ->required(),
                 Textarea::make('suggestion_description')
+                    ->label('Deskripsi')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->autosize(),
             ]);
     }
 }

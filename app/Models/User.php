@@ -69,6 +69,8 @@ class User extends Authenticatable implements FilamentUser
         $panel_id = $panel->getId();
         if ($panel_id === 'admin') {
             return $this->is_admin == 1;
+        } elseif ($panel_id === 'intern') {
+            return $this->is_admin == 0;
         } else {
             return false;
         }
@@ -82,16 +84,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function projects(): HasMany
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Project::class, 'user_id');
     }
 
     public function suggestions(): HasMany
     {
-        return $this->hasMany(Suggestion::class);
+        return $this->hasMany(Suggestion::class, 'user_id');
     }
 
     public function rating(): HasOne
     {
-        return $this->hasOne(Rating::class);
+        return $this->hasOne(Rating::class, 'user_id');
     }
 }

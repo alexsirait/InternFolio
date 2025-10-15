@@ -9,6 +9,7 @@ use App\Filament\Resources\Interns\Pages\ViewIntern;
 use App\Filament\Resources\Interns\Schemas\InternForm;
 use App\Filament\Resources\Interns\Schemas\InternInfolist;
 use App\Filament\Resources\Interns\Tables\InternsTable;
+use App\Filament\Resources\Interns\Widgets\InternStats;
 use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -22,7 +23,7 @@ class InternResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserCircle;
 
     protected static ?string $modelLabel = 'Intern';
 
@@ -69,5 +70,12 @@ class InternResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('is_admin', 0)->with(['department']);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            InternStats::class,
+        ];
     }
 }

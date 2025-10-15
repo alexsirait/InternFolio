@@ -43,7 +43,7 @@ class Project extends Model
 
     public function photos(): HasMany
     {
-        return $this->hasMany(Photo::class);
+        return $this->hasMany(Photo::class, 'project_id');
     }
 
     public function category(): BelongsTo

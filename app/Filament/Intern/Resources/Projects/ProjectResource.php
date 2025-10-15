@@ -2,25 +2,27 @@
 
 namespace App\Filament\Intern\Resources\Projects;
 
-use App\Filament\Intern\Resources\Projects\Pages\CreateProject;
-use App\Filament\Intern\Resources\Projects\Pages\EditProject;
-use App\Filament\Intern\Resources\Projects\Pages\ListProjects;
-use App\Filament\Intern\Resources\Projects\Pages\ViewProject;
-use App\Filament\Intern\Resources\Projects\Schemas\ProjectForm;
-use App\Filament\Intern\Resources\Projects\Schemas\ProjectInfolist;
-use App\Filament\Intern\Resources\Projects\Tables\ProjectsTable;
-use App\Models\Project;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Project;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Intern\Resources\Projects\Pages\EditProject;
+use App\Filament\Intern\Resources\Projects\Pages\ViewProject;
+use App\Filament\Intern\Resources\Projects\Pages\ListProjects;
+use App\Filament\Intern\Resources\Projects\Pages\CreateProject;
+use App\Filament\Intern\Resources\Projects\Schemas\ProjectForm;
+use App\Filament\Intern\Resources\Projects\Tables\ProjectsTable;
+use App\Filament\Intern\Resources\Projects\Schemas\ProjectInfolist;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CpuChip;
 
     public static function form(Schema $schema): Schema
     {
@@ -52,5 +54,12 @@ class ProjectResource extends Resource
             'view' => ViewProject::route('/{record}'),
             'edit' => EditProject::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $userId = Auth::id();
+
+        return parent::getEloquentQuery()->where('user_id', $userId);
     }
 }

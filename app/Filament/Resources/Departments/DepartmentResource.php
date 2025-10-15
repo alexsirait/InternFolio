@@ -9,6 +9,7 @@ use App\Filament\Resources\Departments\Pages\ViewDepartment;
 use App\Filament\Resources\Departments\Schemas\DepartmentForm;
 use App\Filament\Resources\Departments\Schemas\DepartmentInfolist;
 use App\Filament\Resources\Departments\Tables\DepartmentsTable;
+use App\Filament\Resources\Departments\Widgets\DepartmentStats;
 use App\Models\Department;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -20,7 +21,7 @@ class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice;
 
     // protected static ?string $recordTitleAttribute = 'Department';
 
@@ -53,6 +54,13 @@ class DepartmentResource extends Resource
             'create' => CreateDepartment::route('/create'),
             'view' => ViewDepartment::route('/{record}'),
             'edit' => EditDepartment::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            DepartmentStats::class,
         ];
     }
 }
