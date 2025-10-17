@@ -32,7 +32,7 @@ class RatingsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('updated_at', direction: 'desc')
             ->filters([
                 //
             ])

@@ -37,7 +37,7 @@ class InternForm
                     ->image()
                     ->acceptedFileTypes(['image/*'])
                     ->maxSize(3072) // 3 MB
-                    ->directory('intern')
+                    ->directory('interns')
                     ->disk('public')
                     ->visibility('public')
                     ->afterStateUpdated(function ($state, $component, $record) {

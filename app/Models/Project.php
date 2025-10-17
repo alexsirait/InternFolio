@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -33,6 +34,18 @@ class Project extends Model
         static::creating(function ($project) {
             $project->project_uuid = (string) Str::uuid();
         });
+
+        static::deleting(function ($project) {
+            // Hapus semua file gambar terkait
+            foreach ($project->photos as $photo) {
+                if ($photo->photo_url && Storage::disk('public')->exists($photo->photo_url)) {
+                    Storage::disk('public')->delete($photo->photo_url);
+                }
+            }
+
+            // Hapus relasi photo di database
+            $project->photos()->delete();
+        });
     }
 
     // Relationship
@@ -43,7 +56,7 @@ class Project extends Model
 
     public function photos(): HasMany
     {
-        return $this->hasMany(Photo::class, 'project_id');
+        return $this->hasMany(Photo::class, 'project_id')->orderByDesc('photo_id');
     }
 
     public function category(): BelongsTo

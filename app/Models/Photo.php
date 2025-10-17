@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Photo extends Model
@@ -31,6 +32,12 @@ class Photo extends Model
 
         static::creating(function ($photo) {
             $photo->photo_uuid = (string) Str::uuid();
+        });
+
+        static::deleting(function ($photo) {
+            if ($photo->photo_url && Storage::disk('public')->exists($photo->photo_url)) {
+                Storage::disk('public')->delete($photo->photo_url);
+            }
         });
     }
 

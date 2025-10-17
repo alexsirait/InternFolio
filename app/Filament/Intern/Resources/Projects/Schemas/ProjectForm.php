@@ -7,6 +7,7 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
@@ -57,7 +58,7 @@ class ProjectForm
                     ->integer(),
                 FileUpload::make('photos')
                     ->label('Foto Project')
-                    ->helperText('Anda bisa upload lebih dari 1 gambar')
+                    ->helperText('Anda bisa upload maksimal 5 gambar (lebih dari 5 akan ditolak otomatis)')
                     ->required()
                     ->image()
                     ->acceptedFileTypes(['image/*'])
@@ -65,23 +66,34 @@ class ProjectForm
                     ->multiple()
                     ->columnSpanFull()
                     ->reorderable()
+                    ->dehydrated(false)
+                    ->minFiles(1)
+                    ->maxFiles(5)
+                    ->directory('projects')
+                    ->disk('public')
+                    ->visibility('public')
                     ->afterStateHydrated(function (FileUpload $component, $record) {
                         if ($record?->exists) {
                             $paths = $record->photos->pluck('photo_url')->toArray();
                             $component->state($paths);
                         }
                     })
-                    ->dehydrated(false)
-                    ->directory('project')
-                    ->visibility('public')
-                    ->disk('public')
                     ->saveRelationshipsUsing(function (FileUpload $component, $state, $record) {
+                        $oldPhotos = $record->photos()->pluck('photo_url')->toArray();
+
                         $record->photos()->delete();
 
                         foreach ($state as $filePath) {
                             $record->photos()->create([
                                 'photo_url' => $filePath,
                             ]);
+                        }
+
+                        $deletedFiles = array_diff($oldPhotos, $state);
+                        foreach ($deletedFiles as $filePath) {
+                            if (Storage::disk('public')->exists($filePath)) {
+                                Storage::disk('public')->delete($filePath);
+                            }
                         }
                     }),
             ]);

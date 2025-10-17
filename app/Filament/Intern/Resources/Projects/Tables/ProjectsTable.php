@@ -31,10 +31,11 @@ class ProjectsTable
                     ->searchable(),
                 ImageColumn::make('photos.photo_url')
                     ->imageHeight(40)
-                    // ->visibility('public')
-                    // ->disk('public')
+                    ->disk('public')
                     ->circular()
-                    ->stacked(),
+                    ->stacked()
+                    ->limit(3)
+                    ->limitedRemainingText(),
                 TextColumn::make('category.category_name')
                     ->label('Kategori')
                     ->sortable()
@@ -69,7 +70,7 @@ class ProjectsTable
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('updated_at', direction: 'desc')
             ->filters([
                 Filter::make('category_id')
                     ->schema([

@@ -62,7 +62,7 @@ class SuggestionsTable
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('updated_at', direction: 'desc')
             ->filters([
                 Filter::make('category_id')
                     ->schema([

@@ -2,8 +2,9 @@
 
 namespace App\Filament\Intern\Resources\Projects\Schemas;
 
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
 
 class ProjectInfolist
 {
@@ -19,6 +20,11 @@ class ProjectInfolist
                 TextEntry::make('project_description')
                     ->label('Deskripsi Project')
                     ->columnSpanFull(),
+                ImageEntry::make('photos.photo_url')
+                    ->label('Foto Project')
+                    ->disk('public')
+                    ->columnSpanFull()
+                    ->imageSize(250),
                 TextEntry::make('project_technology')
                     ->badge()
                     ->color('warning')
