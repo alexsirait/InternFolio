@@ -2,8 +2,8 @@
 
 namespace App\Filament\Intern\Resources\Suggestions\Schemas;
 
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\TextEntry;
 
 class SuggestionInfolist
 {
@@ -18,7 +18,8 @@ class SuggestionInfolist
                     ->label('Judul'),
                 TextEntry::make('suggestion_description')
                     ->label('Deskripsi')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->markdown(),
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()

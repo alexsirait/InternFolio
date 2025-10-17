@@ -20,13 +20,17 @@ class SuggestionsTable
 {
     public static function configure(Table $table): Table
     {
+        $category = Category::where('category_type', 'Suggestion')
+            ->orderBy('category_name')
+            ->pluck('category_name', 'category_id');
+
         return $table
             ->columns([
                 TextColumn::make('No')
                     ->rowIndex(),
                 TextColumn::make('suggestion_title')
                     ->label('Judul')
-                    ->description(fn(Suggestion $record): string => $record->suggestion_description)
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('category.category_name')
                     ->label('Kategori')
@@ -68,7 +72,7 @@ class SuggestionsTable
                     ->schema([
                         Select::make('category_id')
                             ->label('Kategori')
-                            ->options(Category::where('category_type', 'Suggestion')->pluck('category_name', 'category_id'))
+                            ->options($category)
                             ->searchable(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {

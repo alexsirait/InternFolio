@@ -16,12 +16,17 @@ class ProjectForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $category = Category::query()
+            ->where('category_type', 'Project')
+            ->orderBy('category_name')
+            ->pluck('category_name', 'category_id');
+
         return $schema
             ->components([
                 Select::make('category_id')
                     ->label('Kategori')
                     ->required()
-                    ->options(Category::query()->where('category_type', 'Project')->pluck('category_name', 'category_id'))
+                    ->options($category)
                     ->native(false)
                     ->searchable(),
                 TextInput::make('project_title')

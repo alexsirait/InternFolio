@@ -21,6 +21,10 @@ class ProjectsTable
 {
     public static function configure(Table $table): Table
     {
+        $category = Category::where('category_type', 'Project')
+            ->orderBy('category_name')
+            ->pluck('category_name', 'category_id');
+
         return $table
             ->columns([
                 TextColumn::make('No')
@@ -76,7 +80,7 @@ class ProjectsTable
                     ->schema([
                         Select::make('category_id')
                             ->label('Kategori')
-                            ->options(Category::where('category_type', 'Project')->pluck('category_name', 'category_id'))
+                            ->options($category)
                             ->searchable(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
