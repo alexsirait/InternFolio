@@ -28,27 +28,31 @@ class DepartmentsTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label('Dibuat pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Diubah pada')
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('updated_at', direction: 'desc')
             ->filters([
                 //
             ])
             ->recordActions([
                 ViewAction::make()
                     ->color(Color::Blue),
-                EditAction::make(),
+                EditAction::make()
+                    ->color(Color::Yellow),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([10, 25, 50, 100, 'all']);
     }
 }

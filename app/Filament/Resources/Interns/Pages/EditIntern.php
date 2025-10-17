@@ -38,12 +38,19 @@ class EditIntern extends EditRecord
 
         $email = $emailLocalPart . '@gmail.com';
 
+        $recordId = $this->record?->user_id;
+
         // Pengecekan Duplikat Email
-        if (User::where('email', $email)->exists()) {
+        if (User::where('email', $email)
+            ->when($recordId, fn($query) => $query->where('user_id', '!=', $recordId))
+            ->exists()
+        ) {
             $i = 1;
             $uniqueEmail = $email;
 
-            while (User::where('email', $uniqueEmail)->exists()) {
+            while (User::where('email', $uniqueEmail)->when($recordId, fn($query) => $query->where('user_id', '!=', $recordId))
+                ->exists()
+            ) {
                 $uniqueEmail = $emailLocalPart . $i . '@gmail.com';
                 $i++;
             }

@@ -6,6 +6,7 @@ use App\Models\Department;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -34,8 +35,17 @@ class InternForm
                     ->searchPrompt('Cari berdasarkan kode atau nama'),
                 FileUpload::make('user_image')
                     ->image()
-                    ->directory('intern')
-                    ->visibility('public'),
+                    ->acceptedFileTypes(['image/*'])
+                    ->maxSize(3072) // 3 MB
+                    ->directory('interns')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->afterStateUpdated(function ($state, $component, $record) {
+                        // Jika mengganti file saat edit, hapus file lama
+                        if ($record && $record->getOriginal('user_image') && $record->getOriginal('user_image') !== $state) {
+                            Storage::disk('public')->delete($record->getOriginal('user_image'));
+                        }
+                    }),
                 TextInput::make('user_name')
                     ->label('Nama Intern')
                     ->required(),
