@@ -5,9 +5,11 @@ namespace App\Filament\Intern\Resources\Projects\Schemas;
 use App\Models\Category;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 
 class ProjectForm
 {
@@ -53,6 +55,35 @@ class ProjectForm
                     ->minValue(0)
                     ->maxValue(60)
                     ->integer(),
+                FileUpload::make('photos')
+                    ->label('Foto Project')
+                    ->helperText('Anda bisa upload lebih dari 1 gambar')
+                    ->required()
+                    ->image()
+                    ->acceptedFileTypes(['image/*'])
+                    ->maxSize(3072) // 3 MB
+                    ->multiple()
+                    ->columnSpanFull()
+                    ->reorderable()
+                    ->afterStateHydrated(function (FileUpload $component, $record) {
+                        if ($record?->exists) {
+                            $paths = $record->photos->pluck('photo_url')->toArray();
+                            $component->state($paths);
+                        }
+                    })
+                    ->dehydrated(false)
+                    ->directory('project')
+                    ->visibility('public')
+                    ->disk('public')
+                    ->saveRelationshipsUsing(function (FileUpload $component, $state, $record) {
+                        $record->photos()->delete();
+
+                        foreach ($state as $filePath) {
+                            $record->photos()->create([
+                                'photo_url' => $filePath,
+                            ]);
+                        }
+                    }),
             ]);
     }
 }

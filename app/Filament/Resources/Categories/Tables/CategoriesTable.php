@@ -6,6 +6,7 @@ use App\Models\Category;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
@@ -43,7 +44,7 @@ class CategoriesTable
                     ->isoDateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->defaultSort('updated_at', direction: 'desc')
             ->filters([
                 Filter::make('category_type')
                     ->schema([
@@ -64,13 +65,15 @@ class CategoriesTable
                     }),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->color(Color::Yellow),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([10, 25, 50, 100, 'all']);
     }
 }

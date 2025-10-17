@@ -8,11 +8,13 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProjectsTable
@@ -27,6 +29,12 @@ class ProjectsTable
                     ->label('Judul')
                     ->description(fn(Project $record): string => $record->project_description)
                     ->searchable(),
+                ImageColumn::make('photos.photo_url')
+                    ->imageHeight(40)
+                    // ->visibility('public')
+                    // ->disk('public')
+                    ->circular()
+                    ->stacked(),
                 TextColumn::make('category.category_name')
                     ->label('Kategori')
                     ->sortable()
@@ -79,14 +87,17 @@ class ProjectsTable
                     }),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->color(Color::Blue),
+                EditAction::make()
+                    ->color(Color::Yellow),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([10, 25, 50, 100, 'all']);
     }
 }
