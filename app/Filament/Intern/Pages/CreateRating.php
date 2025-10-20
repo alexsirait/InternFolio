@@ -2,21 +2,20 @@
 
 namespace App\Filament\Intern\Pages;
 
-use Filament\Forms;
 use App\Models\Rating;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
+use Mokhosh\FilamentRating\RatingTheme;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Mokhosh\FilamentRating\Components\Rating as ComponentsRating;
 
 class CreateRating extends Page implements HasForms
 {
@@ -47,30 +46,24 @@ class CreateRating extends Page implements HasForms
                 Section::make('Rating Internship')
                     ->description('Mohon berikan penilaian terhadap pengalaman magang Anda')
                     ->schema([
-                        Select::make('rating_range')
-                            ->label('Rating Keseluruhan')
-                            ->options([
-                                1 => '1 - Sangat Buruk',
-                                2 => '2 - Buruk',
-                                3 => '3 - Cukup',
-                                4 => '4 - Baik',
-                                5 => '5 - Sangat Baik',
-                            ])
-                            ->required()
-                            ->native(false),
+                        ComponentsRating::make('rating_range')
+                            ->default(1)
+                            ->color('warning')
+                            ->color('success')
+                            ->size('xl')
+                            ->required(),
                         Textarea::make('rating_description')
                             ->label('Feedback')
                             ->autosize()
                             ->trim()
                             ->placeholder('Berikan feedback mengenai pengalaman magang Anda...')
-                            ->maxLength(1000),
+                            ->maxLength(1000)
+                            ->required(),
+                        Action::make('submit')
+                            ->label('Submit Rating')
+                            ->submit('submit')
+                            ->color('primary')
                     ]),
-                Actions::make([
-                    Action::make('submit')
-                        ->label('Submit Rating')
-                        ->submit('submit')
-                        ->color('primary')
-                ])
             ])
             ->statePath('data');
     }
