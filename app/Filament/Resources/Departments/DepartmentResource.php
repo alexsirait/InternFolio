@@ -63,4 +63,14 @@ class DepartmentResource extends Resource
             DepartmentStats::class,
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
 }

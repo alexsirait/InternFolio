@@ -78,4 +78,14 @@ class InternResource extends Resource
             InternStats::class,
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_admin', 0)->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
 }

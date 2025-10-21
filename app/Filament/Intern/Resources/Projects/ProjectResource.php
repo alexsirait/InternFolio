@@ -16,6 +16,7 @@ use App\Filament\Intern\Resources\Projects\Pages\CreateProject;
 use App\Filament\Intern\Resources\Projects\Schemas\ProjectForm;
 use App\Filament\Intern\Resources\Projects\Tables\ProjectsTable;
 use App\Filament\Intern\Resources\Projects\Schemas\ProjectInfolist;
+use App\Filament\Intern\Resources\Projects\Widgets\ProjectStats;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectResource extends Resource
@@ -61,5 +62,24 @@ class ProjectResource extends Resource
         $userId = Auth::id();
 
         return parent::getEloquentQuery()->where('user_id', $userId);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ProjectStats::class,
+        ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        $userId = Auth::id();
+
+        return static::getModel()::where('user_id', $userId)->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
     }
 }

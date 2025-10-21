@@ -53,4 +53,14 @@ class CategoryResource extends Resource
             CategoryStats::class,
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
 }
