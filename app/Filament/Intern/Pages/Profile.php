@@ -40,10 +40,6 @@ class Profile extends BaseEditProfile
                             ->disk('public')
                             // ->avatar()
                             ->columnSpanFull(),
-                        TextInput::make('user_name')
-                            ->label('Nama Lengkap')
-                            ->required()
-                            ->maxLength(255),
                         Grid::make(2)
                             ->schema([
                                 TextInput::make('position')
@@ -135,7 +131,6 @@ class Profile extends BaseEditProfile
 
         return [
             'user_image' => $user->user_image,
-            'user_name' => $user->user_name,
             'position' => $user->position,
             'major' => $user->major,
             'linkedin_url' => $user->linkedin_url,

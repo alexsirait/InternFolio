@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Rose,
                 // 'secondary' => Color::Purple,
                 // 'success' => Color::Green,
                 // 'warning' => Color::Yellow,

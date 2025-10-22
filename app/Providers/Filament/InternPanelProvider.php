@@ -36,7 +36,7 @@ class InternPanelProvider extends PanelProvider
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Rose,
             ])
             ->font('Poppins', provider: GoogleFontProvider::class)
             ->brandName('InternFolio')
