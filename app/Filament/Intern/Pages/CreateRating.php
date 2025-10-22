@@ -59,10 +59,12 @@ class CreateRating extends Page implements HasForms
                             ->placeholder('Berikan feedback mengenai pengalaman magang Anda...')
                             ->maxLength(1000)
                             ->required(),
-                        Action::make('submit')
-                            ->label('Submit Rating')
-                            ->submit('submit')
-                            ->color('primary')
+                        Actions::make([
+                            Action::make('submit')
+                                ->label('Submit Rating')
+                                ->submit('submit')
+                                ->color('primary')
+                        ])->alignEnd()
                     ]),
             ])
             ->statePath('data');
