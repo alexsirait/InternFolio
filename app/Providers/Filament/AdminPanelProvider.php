@@ -9,6 +9,7 @@ use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Widgets\InternGrowthStats;
+use App\Http\Middleware\RedirectIfNotAuthenticated;
 use Filament\FontProviders\GoogleFontProvider;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -70,7 +71,8 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                // Authenticate::class,
+                RedirectIfNotAuthenticated::class,
             ]);
     }
 }
