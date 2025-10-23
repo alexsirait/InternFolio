@@ -28,6 +28,7 @@ class InternPanelProvider extends PanelProvider
     {
         return $panel
             ->spa()
+            ->default()
             ->id('intern')
             ->path('intern')
             ->login()

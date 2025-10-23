@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -71,17 +71,17 @@ class User extends Authenticatable implements FilamentUser
         });
     }
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        $panel_id = $panel->getId();
-        if ($panel_id === 'admin') {
-            return $this->is_admin == 1;
-        } elseif ($panel_id === 'intern') {
-            return $this->is_admin == 0;
-        } else {
-            return false;
-        }
-    }
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     $panel_id = $panel->getId();
+    //     if ($panel_id === 'admin') {
+    //         return $this->is_admin == 1;
+    //     } elseif ($panel_id === 'intern') {
+    //         return $this->is_admin == 0;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     // Relationship
     public function department(): BelongsTo

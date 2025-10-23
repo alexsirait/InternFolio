@@ -7,8 +7,6 @@ use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Widgets\InternGrowthStats;
 use Filament\FontProviders\GoogleFontProvider;
@@ -28,10 +26,10 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->spa()
-            ->default()
+            // ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // ->login()
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
