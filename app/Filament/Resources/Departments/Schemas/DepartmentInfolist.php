@@ -12,9 +12,9 @@ class DepartmentInfolist
         return $schema
             ->components([
                 TextEntry::make('department_code')
-                    ->label('Kode Department'),
+                    ->label('Kode Departemen'),
                 TextEntry::make('department_name')
-                    ->label('Nama Department'),
+                    ->label('Nama Departemen'),
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Categories\Widgets;
 
 use App\Models\Category;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -31,16 +32,16 @@ class CategoryStats extends StatsOverviewWidget
         return [
             Stat::make('Total Data Bulan Ini', $currentMonthData)
                 ->description('Jumlah data yang terdaftar bulan ini')
-                ->descriptionIcon('heroicon-s-chart-bar-square')
-                ->color('danger'),
-            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' project')
-                ->description('Kategori dengan jumlah project terbanyak')
-                ->descriptionIcon('heroicon-s-chart-pie')
-                ->color('info'),
+                ->descriptionIcon(Heroicon::ChartBarSquare)
+                ->color('primary'),
+            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' proyek')
+                ->description('Kategori dengan jumlah proyek terbanyak')
+                ->descriptionIcon(Heroicon::BookOpen)
+                ->color('primary'),
             Stat::make('Total Data', $totalData)
                 ->description('Jumlah total data yang terdaftar')
-                ->descriptionIcon('heroicon-s-calculator')
-                ->color('success'),
+                ->descriptionIcon(Heroicon::Calculator)
+                ->color('primary'),
         ];
     }
 }

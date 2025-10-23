@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -34,22 +35,22 @@ class InternGrowthStats extends StatsOverviewWidget
         $totalUsers = User::where('is_admin', 0)->count();
 
         return [
-            Stat::make('Total Intern Bulan Ini', $currentMonthUsers)
-                ->description('Jumlah intern yang terdaftar bulan ini')
-                ->descriptionIcon('heroicon-s-users')
-                ->color('success'),
+            Stat::make('Total Alumni Magang Bulan Ini', $currentMonthUsers)
+                ->description('Jumlah Alumni Magang yang terdaftar bulan ini')
+                ->descriptionIcon(Heroicon::UserPlus)
+                ->color('primary'),
 
-            Stat::make('Kenaikan Intern', $growth)
+            Stat::make('Kenaikan Alumni Magang', $growth)
                 ->description($previousMonthUsers == 0 && $currentMonthUsers > 0
-                    ? '100% (pertumbuhan dari 0 intern)'
+                    ? '100% (pertumbuhan dari 0 Alumni Magang)'
                     : sprintf('%s%% dari bulan sebelumnya', number_format($growthPercentage)))
-                ->descriptionIcon($growth >= 0 ? 'heroicon-s-arrow-trending-up' : 'heroicon-s-arrow-trending-down')
-                ->color($growth >= 0 ? 'success' : 'danger'),
+                ->descriptionIcon($growth >= 0 ? Heroicon::ArrowTrendingUp : Heroicon::ArrowTrendingDown)
+                ->color($growth >= 0 ? 'primary' : 'danger'),
 
-            Stat::make('Total Intern', $totalUsers)
-                ->description('Jumlah total intern yang terdaftar')
-                ->descriptionIcon('heroicon-s-users')
-                ->color('success'),
+            Stat::make('Total Alumni Magang', $totalUsers)
+                ->description('Jumlah total Alumni Magang yang terdaftar')
+                ->descriptionIcon(Heroicon::User)
+                ->color('primary'),
         ];
     }
 }

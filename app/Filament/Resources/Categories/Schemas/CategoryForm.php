@@ -13,11 +13,20 @@ class CategoryForm
         return $schema
             ->components([
                 Select::make('category_type')
+                    ->label('Tipe Kategori')
                     ->options(['Project' => 'Project', 'Suggestion' => 'Suggestion'])
                     ->native(false)
-                    ->required(),
+                    ->required()
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
                 TextInput::make('category_name')
-                    ->required(),
+                    ->label('Nama Kategori')
+                    ->required()
+                    ->minLength(2)
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
             ]);
     }
 }

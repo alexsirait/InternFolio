@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Departments\Widgets;
 
 use App\Models\Department;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -30,18 +31,18 @@ class DepartmentStats extends StatsOverviewWidget
         $totalDataProject = $mostProjectDepartment->projects_count;
 
         return [
-            Stat::make('Intern', $popularDepartment . ' - ' . $totalDataPopular . ' intern')
-                ->description('Department dengan jumlah intern terbanyak')
-                ->descriptionIcon('heroicon-s-chart-pie')
-                ->color('danger'),
-            Stat::make('Project', $projectDepartment . ' - ' . $totalDataProject . ' project')
-                ->description('Department dengan jumlah project terbanyak')
-                ->descriptionIcon('heroicon-s-chart-pie')
-                ->color('info'),
+            Stat::make('Alumni Magang', $popularDepartment . ' - ' . $totalDataPopular . ' Alumni Magang')
+                ->description('Departemen dengan jumlah Alumni Magang terbanyak')
+                ->descriptionIcon(Heroicon::AcademicCap)
+                ->color('primary'),
+            Stat::make('Proyek', $projectDepartment . ' - ' . $totalDataProject . ' Proyek')
+                ->description('Departemen dengan jumlah Proyek terbanyak')
+                ->descriptionIcon(Heroicon::BookOpen)
+                ->color('primary'),
             Stat::make('Total Data', $totalData)
                 ->description('Jumlah total data yang terdaftar')
-                ->descriptionIcon('heroicon-s-calculator')
-                ->color('success'),
+                ->descriptionIcon(Heroicon::Calculator)
+                ->color('primary'),
         ];
     }
 }

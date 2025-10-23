@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Interns\Schemas;
 
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 
@@ -13,7 +14,7 @@ class InternInfolist
         return $schema
             ->components([
                 TextEntry::make('user_name')
-                    ->label('Nama Intern')
+                    ->label('Nama Alumni Magang')
                     ->formatStateUsing(function ($state, $record): string {
                         $user_name = $record->user_name;
                         $user_badge = $record->user_badge;
@@ -21,7 +22,7 @@ class InternInfolist
                         return "{$user_name} ({$user_badge})";
                     }),
                 TextEntry::make('department.department_code')
-                    ->label('Kode Department')
+                    ->label('Departemen')
                     ->formatStateUsing(function ($state, $record): string {
                         $department = $record->department;
 
@@ -49,6 +50,7 @@ class InternInfolist
                     ->sinceTooltip()
                     ->placeholder('-'),
                 ImageEntry::make('user_image')
+                    ->label('Foto Alumni Magang')
                     ->columnSpanFull()
                     ->imageSize(250)
                     ->circular()
@@ -61,10 +63,20 @@ class InternInfolist
                     ->placeholder('-'),
                 TextEntry::make('linkedin_url')
                     ->label('Link LinkedIn')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->icon(Heroicon::GlobeAlt)
+                    ->iconColor('info')
+                    ->copyable()
+                    ->copyMessage('Berhasil copy!')
+                    ->copyMessageDuration(1500),
                 TextEntry::make('instagram_url')
                     ->label('Link Instagram')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->icon(Heroicon::GlobeAlt)
+                    ->iconColor('info')
+                    ->copyable()
+                    ->copyMessage('Berhasil copy!')
+                    ->copyMessageDuration(1500),
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()

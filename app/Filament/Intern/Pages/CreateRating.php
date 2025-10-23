@@ -47,9 +47,8 @@ class CreateRating extends Page implements HasForms
                     ->description('Mohon berikan penilaian terhadap pengalaman magang Anda')
                     ->schema([
                         ComponentsRating::make('rating_range')
-                            ->default(1)
+                            ->default(5)
                             ->color('warning')
-                            ->color('success')
                             ->size('xl')
                             ->required(),
                         Textarea::make('rating_description')

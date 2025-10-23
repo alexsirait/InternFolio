@@ -23,10 +23,12 @@ class SuggestionInfolist
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->label('Diubah pada')
                     ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
             ]);
     }

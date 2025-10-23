@@ -17,7 +17,8 @@ class EditIntern extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
+            ViewAction::make()
+                ->color('info'),
             DeleteAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),

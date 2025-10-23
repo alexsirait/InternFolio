@@ -23,7 +23,9 @@ class SuggestionResource extends Resource
 {
     protected static ?string $model = Suggestion::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleOvalLeftEllipsis;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::LightBulb;
+
+    protected static ?string $modelLabel = 'Saran';
 
     public static function form(Schema $schema): Schema
     {
@@ -80,6 +82,6 @@ class SuggestionResource extends Resource
 
     public static function getNavigationBadgeColor(): ?string
     {
-        return 'success';
+        return 'primary';
     }
 }

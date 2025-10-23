@@ -12,10 +12,15 @@ class DepartmentForm
         return $schema
             ->components([
                 TextInput::make('department_code')
-                    ->label('Kode Department')
-                    ->required(),
+                    ->label('Kode Departemen')
+                    ->required()
+                    ->maxLength(8)
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                        'max.string' => ':attribute maksimal 8 karakter!',
+                    ]),
                 TextInput::make('department_name')
-                    ->label('Nama Department')
+                    ->label('Nama Departemen')
                     ->required(),
             ]);
     }

@@ -23,7 +23,9 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::CpuChip;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::BookOpen;
+
+    protected static ?string $modelLabel = 'Proyek';
 
     public static function form(Schema $schema): Schema
     {
@@ -80,6 +82,6 @@ class ProjectResource extends Resource
 
     public static function getNavigationBadgeColor(): ?string
     {
-        return 'success';
+        return 'primary';
     }
 }

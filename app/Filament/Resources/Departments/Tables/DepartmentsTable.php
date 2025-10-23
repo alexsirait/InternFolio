@@ -6,7 +6,6 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
-use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -20,11 +19,11 @@ class DepartmentsTable
                 TextColumn::make('No')
                     ->rowIndex(),
                 TextColumn::make('department_code')
-                    ->label('Kode Department')
+                    ->label('Kode Departemen')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('department_name')
-                    ->label('Nama Department')
+                    ->label('Nama Departemen')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
@@ -43,9 +42,9 @@ class DepartmentsTable
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->color(Color::Blue),
+                    ->color('info'),
                 EditAction::make()
-                    ->color(Color::Yellow),
+                    ->color('warning'),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

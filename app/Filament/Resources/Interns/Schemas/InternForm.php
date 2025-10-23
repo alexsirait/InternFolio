@@ -20,7 +20,7 @@ class InternForm
         return $schema
             ->components([
                 Select::make('department_id')
-                    ->label('Department')
+                    ->label('Departemen')
                     ->options(
                         $department->mapWithKeys(function ($department) {
                             return [
@@ -30,10 +30,14 @@ class InternForm
                     )
                     ->required()
                     ->searchable(['department_name', 'department_code'])
-                    ->loadingMessage('Loading departments...')
-                    ->noSearchResultsMessage('Tidak ada department yang sesuai!')
-                    ->searchPrompt('Cari berdasarkan kode atau nama'),
+                    ->loadingMessage('Loading departemen...')
+                    ->noSearchResultsMessage('Tidak ada departemen yang sesuai!')
+                    ->searchPrompt('Cari berdasarkan kode atau nama departemen')
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
                 FileUpload::make('user_image')
+                    ->label('Foto Alumni Magang')
                     ->image()
                     ->acceptedFileTypes(['image/*'])
                     ->maxSize(3072) // 3 MB
@@ -47,7 +51,7 @@ class InternForm
                         }
                     }),
                 TextInput::make('user_name')
-                    ->label('Nama Intern')
+                    ->label('Nama Alumni Magang')
                     ->required(),
                 TextInput::make('school')
                     ->label('Sekolah/Universitas')
@@ -57,13 +61,19 @@ class InternForm
                     ->required()
                     ->displayFormat('d F Y')
                     ->native(false)
-                    ->suffixIcon(Heroicon::CalendarDateRange),
+                    ->suffixIcon(Heroicon::CalendarDateRange)
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
                 DatePicker::make('end_date')
                     ->label('Tanggal Akhir')
                     ->required()
                     ->displayFormat('d F Y')
                     ->native(false)
-                    ->suffixIcon(Heroicon::CalendarDateRange),
+                    ->suffixIcon(Heroicon::CalendarDateRange)
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
             ]);
     }
 }

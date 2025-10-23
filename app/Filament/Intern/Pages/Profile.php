@@ -3,7 +3,6 @@
 namespace App\Filament\Intern\Pages;
 
 use App\Filament\Intern\Resources\Projects\ProjectResource;
-use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Schemas\Components\Grid;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
@@ -34,7 +32,7 @@ class Profile extends BaseEditProfile
                     ->description('Update informasi profil Anda')
                     ->schema([
                         FileUpload::make('user_image')
-                            ->label('Foto Profile')
+                            ->label('Foto Profil')
                             ->image()
                             ->directory('interns')
                             ->disk('public')

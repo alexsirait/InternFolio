@@ -32,7 +32,6 @@ class InternPanelProvider extends PanelProvider
             ->path('intern')
             ->login()
             ->profile(Profile::class)
-            // ->passwordReset()
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([

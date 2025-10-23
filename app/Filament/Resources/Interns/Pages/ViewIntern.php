@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Resources\Interns\InternResource;
+use Filament\Support\Icons\Heroicon;
 
 class ViewIntern extends ViewRecord
 {
@@ -20,7 +21,7 @@ class ViewIntern extends ViewRecord
             Action::make('reset_password')
                 ->label('Reset Password')
                 ->color(Color::Sky)
-                ->icon('heroicon-o-key')
+                ->icon(Heroicon::Key)
                 ->requiresConfirmation()
                 ->modalHeading('Reset Password Intern')
                 ->modalDescription('Password akan direset menjadi password default.')
@@ -39,7 +40,8 @@ class ViewIntern extends ViewRecord
                         ->body('Password baru: Password321')
                         ->send();
                 }),
-            EditAction::make(),
+            EditAction::make()
+                ->color('warning'),
         ];
     }
 }

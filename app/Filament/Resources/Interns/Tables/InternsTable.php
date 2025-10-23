@@ -7,7 +7,6 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
-use Filament\Support\Colors\Color;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
@@ -30,7 +29,7 @@ class InternsTable
                 TextColumn::make('No')
                     ->rowIndex(),
                 TextColumn::make('user_name')
-                    ->label('Nama Intern')
+                    ->label('Nama Alumni')
                     ->sortable()
                     ->searchable(['user_name', 'user_badge'])
                     ->formatStateUsing(function ($record) {
@@ -40,7 +39,7 @@ class InternsTable
                         return "{$name} ({$badge})";
                     }),
                 TextColumn::make('department_id')
-                    ->label('Nama Department')
+                    ->label('Nama Departemen')
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         // Secara manual melakukan whereHas pada relasi 'department'
                         return $query->whereHas('department', function (Builder $query) use ($search) {
@@ -87,7 +86,7 @@ class InternsTable
                 Filter::make('department_id')
                     ->schema([
                         Select::make('department_id')
-                            ->label('Department')
+                            ->label('Departemen')
                             ->options(
                                 $department->mapWithKeys(function ($department) {
                                     return [
@@ -108,9 +107,9 @@ class InternsTable
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->color(Color::Blue),
+                    ->color('info'),
                 EditAction::make()
-                    ->color(Color::Yellow),
+                    ->color('warning'),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

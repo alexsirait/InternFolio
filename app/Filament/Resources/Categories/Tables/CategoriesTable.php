@@ -6,7 +6,6 @@ use App\Models\Category;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use Filament\Support\Colors\Color;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
@@ -23,11 +22,11 @@ class CategoriesTable
                 TextColumn::make('No')
                     ->rowIndex(),
                 TextColumn::make('category_name')
-                    ->label('Kategori')
+                    ->label('Nama Kategori')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('category_type')
-                    ->label('Tipe')
+                    ->label('Tipe Kategori')
                     ->sortable()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
@@ -49,7 +48,7 @@ class CategoriesTable
                 Filter::make('category_type')
                     ->schema([
                         Select::make('category_type')
-                            ->label('Kategori')
+                            ->label('Tipe Kategori')
                             ->options([
                                 'Project' => 'Project',
                                 'Suggestion' => 'Suggestion'
@@ -66,7 +65,7 @@ class CategoriesTable
             ])
             ->recordActions([
                 EditAction::make()
-                    ->color(Color::Yellow),
+                    ->color('warning'),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

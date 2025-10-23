@@ -4,6 +4,7 @@ namespace App\Filament\Intern\Resources\Suggestions\Widgets;
 
 use App\Models\Category;
 use App\Models\Suggestion;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -37,16 +38,16 @@ class SuggestionStats extends StatsOverviewWidget
         return [
             Stat::make('Persentase kontribusi', $contribution . '%')
                 ->description('Persentase kontribusi terhadap keseluruhan aplikasi')
-                ->descriptionIcon('heroicon-s-arrow-trending-up')
-                ->color('danger'),
-            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' suggestion')
-                ->description('Kategori dengan jumlah suggestion terbanyak')
-                ->descriptionIcon('heroicon-s-chart-pie')
-                ->color('info'),
-            Stat::make('Total suggestion', $totalsuggestions)
-                ->description('Jumlah total suggestion yang terdaftar')
-                ->descriptionIcon('heroicon-s-inbox-stack')
-                ->color('success'),
+                ->descriptionIcon(Heroicon::ArrowTrendingUp)
+                ->color('primary'),
+            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' Saran')
+                ->description('Kategori dengan jumlah Saran terbanyak')
+                ->descriptionIcon(Heroicon::LightBulb)
+                ->color('primary'),
+            Stat::make('Total Saran', $totalsuggestions)
+                ->description('Jumlah total Saran yang terdaftar')
+                ->descriptionIcon(Heroicon::Calculator)
+                ->color('primary'),
         ];
     }
 }

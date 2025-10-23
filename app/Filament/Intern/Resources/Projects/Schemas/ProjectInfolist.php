@@ -16,12 +16,12 @@ class ProjectInfolist
                     ->label('Kategori')
                     ->placeholder('-'),
                 TextEntry::make('project_title')
-                    ->label('Judul Project'),
+                    ->label('Judul Proyek'),
                 TextEntry::make('project_description')
-                    ->label('Deskripsi Project')
+                    ->label('Deskripsi Proyek')
                     ->columnSpanFull(),
                 ImageEntry::make('photos.photo_url')
-                    ->label('Foto Project')
+                    ->label('Foto Proyek')
                     ->disk('public')
                     ->columnSpanFull()
                     ->imageSize(250),
@@ -36,10 +36,12 @@ class ProjectInfolist
                 TextEntry::make('created_at')
                     ->label('Dibuat pada')
                     ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->label('Diubah pada')
                     ->isoDateTime()
+                    ->sinceTooltip()
                     ->placeholder('-'),
             ]);
     }

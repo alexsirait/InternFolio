@@ -4,6 +4,7 @@ namespace App\Filament\Intern\Resources\Projects\Widgets;
 
 use App\Models\Project;
 use App\Models\Category;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -36,17 +37,17 @@ class ProjectStats extends StatsOverviewWidget
 
         return [
             Stat::make('Rata-rata durasi', $avgDurations . ' bulan')
-                ->description('Rata-rata durasi keseluruhan project')
-                ->descriptionIcon('heroicon-s-globe-alt')
-                ->color('danger'),
-            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' project')
-                ->description('Kategori dengan jumlah project terbanyak')
-                ->descriptionIcon('heroicon-s-chart-pie')
-                ->color('info'),
-            Stat::make('Total Project', $totalProjects)
-                ->description('Jumlah total project yang terdaftar')
-                ->descriptionIcon('heroicon-s-inbox-stack')
-                ->color('success'),
+                ->description('Rata-rata durasi keseluruhan Proyek')
+                ->descriptionIcon(Heroicon::Clock)
+                ->color('primary'),
+            Stat::make('Kategori Favorite', $popularCategory . ' - ' . $totalDataPopuler . ' Proyek')
+                ->description('Kategori dengan jumlah Proyek terbanyak')
+                ->descriptionIcon(Heroicon::BookOpen)
+                ->color('primary'),
+            Stat::make('Total Proyek', $totalProjects)
+                ->description('Jumlah total Proyek yang terdaftar')
+                ->descriptionIcon(Heroicon::Calculator)
+                ->color('primary'),
         ];
     }
 }
