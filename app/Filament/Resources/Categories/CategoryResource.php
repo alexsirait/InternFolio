@@ -21,6 +21,8 @@ class CategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Tag;
 
+    protected static ?string $modelLabel = 'Kategori';
+
     public static function form(Schema $schema): Schema
     {
         return CategoryForm::configure($schema);
@@ -52,5 +54,15 @@ class CategoryResource extends Resource
         return [
             CategoryStats::class,
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
     }
 }

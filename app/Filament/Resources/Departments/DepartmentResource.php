@@ -23,7 +23,7 @@ class DepartmentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice;
 
-    // protected static ?string $recordTitleAttribute = 'Department';
+    protected static ?string $modelLabel = 'Departemen';
 
     public static function form(Schema $schema): Schema
     {
@@ -62,5 +62,15 @@ class DepartmentResource extends Resource
         return [
             DepartmentStats::class,
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
     }
 }

@@ -12,9 +12,9 @@ class InternGrowthChart extends ChartWidget
 {
     protected static ?int $sort = 2;
 
-    protected ?string $heading = 'Kenaikan Intern';
+    protected ?string $heading = 'Kenaikan Alumni Magang';
 
-    protected ?string $description = 'Data kenaikan intern per bulan';
+    protected ?string $description = 'Data kenaikan Alumni Magang per bulan';
 
     protected int | string | array $columnSpan = 'full';
 
@@ -35,7 +35,7 @@ class InternGrowthChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Intern Baru',
+                    'label' => 'Alumni Magang Baru',
                     'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
                     'borderColor' => '#3b82f6', // Warna garis
                     'backgroundColor' => 'rgba(59, 130, 246, 0.2)', // Warna fill
@@ -50,7 +50,7 @@ class InternGrowthChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 
     protected function getOptions(): array

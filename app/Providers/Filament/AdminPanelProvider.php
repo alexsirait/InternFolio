@@ -7,10 +7,9 @@ use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Widgets\InternGrowthStats;
+use App\Http\Middleware\RedirectIfNotAuthenticated;
 use Filament\FontProviders\GoogleFontProvider;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,14 +27,14 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->spa()
-            ->default()
+            // ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // ->login()
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Rose,
                 // 'secondary' => Color::Purple,
                 // 'success' => Color::Green,
                 // 'warning' => Color::Yellow,
@@ -72,7 +71,8 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                // Authenticate::class,
+                RedirectIfNotAuthenticated::class,
             ]);
     }
 }

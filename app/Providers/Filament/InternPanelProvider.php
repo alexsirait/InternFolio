@@ -2,16 +2,16 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Intern\Pages\Profile;
+use App\Http\Middleware\CheckInternRating;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Pages\Dashboard;
 use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\FontProviders\GoogleFontProvider;
-use Filament\Pages\Enums\SubNavigationPosition;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -28,25 +28,25 @@ class InternPanelProvider extends PanelProvider
     {
         return $panel
             ->spa()
+            ->default()
             ->id('intern')
             ->path('intern')
             ->login()
-            // ->profile()
-            // ->passwordReset()
+            ->profile(Profile::class)
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Rose,
             ])
             ->font('Poppins', provider: GoogleFontProvider::class)
             ->brandName('InternFolio')
             ->brandLogo(asset('image/logo.png'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('image/logo.png'))
-            ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth(Width::Full)
             ->simplePageMaxContentWidth(Width::Small)
             ->unsavedChangesAlerts()
+            ->topNavigation()
             ->discoverResources(in: app_path('Filament/Intern/Resources'), for: 'App\Filament\Intern\Resources')
             ->discoverPages(in: app_path('Filament/Intern/Pages'), for: 'App\Filament\Intern\Pages')
             ->pages([
@@ -67,6 +67,7 @@ class InternPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                CheckInternRating::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

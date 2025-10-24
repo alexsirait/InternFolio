@@ -28,12 +28,15 @@ class ProjectForm
                     ->required()
                     ->options($category)
                     ->native(false)
-                    ->searchable(),
+                    ->searchable()
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
                 TextInput::make('project_title')
-                    ->label('Judul Project')
+                    ->label('Judul Proyek')
                     ->required(),
                 Textarea::make('project_description')
-                    ->label('Deskripsi Project')
+                    ->label('Deskripsi Proyek')
                     ->required()
                     ->columnSpanFull()
                     ->autosize(),
@@ -51,8 +54,9 @@ class ProjectForm
                         'Livewire',
                         'Javascript',
                         'Python',
-                        'Ruby',
-                        'Elixir',
+                    ])
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
                     ]),
                 TextInput::make('project_duration')
                     ->label('Lama Pengerjaan')
@@ -62,7 +66,7 @@ class ProjectForm
                     ->maxValue(60)
                     ->integer(),
                 FileUpload::make('photos')
-                    ->label('Foto Project')
+                    ->label('Foto Proyek')
                     ->helperText('Anda bisa upload maksimal 5 gambar (lebih dari 5 akan ditolak otomatis)')
                     ->required()
                     ->image()
@@ -100,7 +104,10 @@ class ProjectForm
                                 Storage::disk('public')->delete($filePath);
                             }
                         }
-                    }),
+                    })
+                    ->validationMessages([
+                        'required' => ':attribute wajib diisi!',
+                    ]),
             ]);
     }
 }

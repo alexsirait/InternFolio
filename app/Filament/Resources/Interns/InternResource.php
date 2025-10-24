@@ -25,7 +25,7 @@ class InternResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserCircle;
 
-    protected static ?string $modelLabel = 'Intern';
+    protected static ?string $modelLabel = 'Alumni Magang';
 
     public static function form(Schema $schema): Schema
     {
@@ -77,5 +77,15 @@ class InternResource extends Resource
         return [
             InternStats::class,
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_admin', 0)->count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
     }
 }

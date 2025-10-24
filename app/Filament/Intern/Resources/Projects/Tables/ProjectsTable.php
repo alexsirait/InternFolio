@@ -5,10 +5,10 @@ namespace App\Filament\Intern\Resources\Projects\Tables;
 use App\Models\Project;
 use App\Models\Category;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
-use Filament\Support\Colors\Color;
 use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
@@ -31,9 +31,10 @@ class ProjectsTable
                     ->rowIndex(),
                 TextColumn::make('project_title')
                     ->label('Judul')
-                    ->description(fn(Project $record): string => $record->project_description)
+                    ->description(fn(Project $record): string => Str::limit($record->project_description, 35))
                     ->searchable(),
                 ImageColumn::make('photos.photo_url')
+                    ->label('Foto Proyek')
                     ->imageHeight(40)
                     ->disk('public')
                     ->circular()
@@ -93,9 +94,9 @@ class ProjectsTable
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->color(Color::Blue),
+                    ->color('info'),
                 EditAction::make()
-                    ->color(Color::Yellow),
+                    ->color('warning'),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

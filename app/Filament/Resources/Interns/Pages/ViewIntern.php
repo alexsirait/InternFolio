@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources\Interns\Pages;
 
-use App\Filament\Resources\Interns\InternResource;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
+use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Hash;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\Interns\InternResource;
+use Filament\Support\Icons\Heroicon;
 
 class ViewIntern extends ViewRecord
 {
@@ -13,7 +18,30 @@ class ViewIntern extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            Action::make('reset_password')
+                ->label('Reset Password')
+                ->color(Color::Sky)
+                ->icon(Heroicon::Key)
+                ->requiresConfirmation()
+                ->modalHeading('Reset Password Intern')
+                ->modalDescription('Password akan direset menjadi password default.')
+                ->modalSubmitActionLabel('Ya, Reset')
+                ->action(function () {
+                    $intern = $this->record;
+
+                    // Reset password ke default
+                    $intern->update([
+                        'password' => Hash::make('Password321'),
+                    ]);
+
+                    Notification::make()
+                        ->title('Password berhasil direset')
+                        ->success()
+                        ->body('Password baru: Password321')
+                        ->send();
+                }),
+            EditAction::make()
+                ->color('warning'),
         ];
     }
 }
