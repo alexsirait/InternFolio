@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -62,5 +63,32 @@ class Project extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    // scope
+    public function scopeSearch(Builder $query, ?string $term): void
+    {
+        if ($term) {
+            $query->where(function (Builder $q) use ($term) {
+                $q->where('project_title', 'like', '%' . $term . '%')
+                    ->orWhere('project_description', 'like', '%' . $term . '%')
+                    ->orWhere('project_technology', 'like', '%' . $term . '%')
+                    ->orWhereHas('user', function (Builder $userQuery) use ($term) {
+                        $userQuery->where('user_name', 'like', '%' . $term . '%');
+                    })
+                    ->orWhereHas('user', function (Builder $userQuery) use ($term) {
+                        $userQuery->where('user_badge', 'like', '%' . $term . '%');
+                    });
+            });
+        }
+    }
+
+    public function scopeFilterByDepartment(Builder $query, ?int $deptId): void
+    {
+        if ($deptId) {
+            $query->whereHas('user', function ($userQuery) use ($deptId) {
+                $userQuery->where('department_id', $deptId);
+            });
+        }
     }
 }

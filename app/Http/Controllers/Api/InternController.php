@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Department;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Intern\IndexRequest;
+use App\Http\Requests\IndexRequest;
 
 class InternController extends Controller
 {
@@ -29,7 +29,7 @@ class InternController extends Controller
         $users = User::query()
             ->where('is_admin', 0)
             ->limit(3)
-            ->orderByDesc('user_id')
+            ->latest()
             ->with(['rating' => function ($query) {
                 $query->select('user_id', 'rating_range');
             }])
@@ -41,9 +41,7 @@ class InternController extends Controller
 
         return response()->success($users, 'Berhasil mengambil data');
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(IndexRequest $request)
     {
         $validated = $request->validated();
@@ -68,7 +66,7 @@ class InternController extends Controller
             ->with(['rating' => function ($query) {
                 $query->select('user_id', 'rating_range');
             }])
-            ->orderByDesc('user_id');
+            ->latest();
 
         $departmentId = null;
 
@@ -95,9 +93,6 @@ class InternController extends Controller
         return response()->success($users, 'Berhasil mengambil data');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
         $user->loadCount(['projects', 'suggestions']);
