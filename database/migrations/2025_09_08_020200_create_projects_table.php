@@ -16,10 +16,10 @@ return new class extends Migration
             $table->uuid('project_uuid')->unique();
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories', 'category_id')->nullOnDelete();
-            $table->string('project_title');
+            $table->string('project_title', 32);
             $table->text('project_description');
             $table->text('project_technology');
-            $table->integer('project_duration');
+            $table->unsignedTinyInteger('project_duration');
             $table->timestamps();
         });
     }

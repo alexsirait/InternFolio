@@ -11,6 +11,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ColorColumn;
 use Illuminate\Database\Eloquent\Builder;
 
 class CategoriesTable
@@ -32,6 +33,38 @@ class CategoriesTable
                     ->color(fn(string $state): string => match ($state) {
                         'Project' => 'success',
                         'Suggestion' => 'info',
+                    }),
+                ColorColumn::make('bg_color')
+                    ->label('Warna Latar Belakang')
+                    ->copyable()
+                    ->copyMessage('Berhasil copy!')
+                    ->copyMessageDuration(1000)
+                    ->getStateUsing(function ($record) {
+                        $state = $record->bg_color; // Ambil nilai mentah dari database
+
+                        if (is_string($state) && str_starts_with($state, '0x')) {
+                            // Konversi dari 0xAARRGGBB ke #RRGGBB
+                            $rgb = substr($state, 4);
+                            return '#' . $rgb;
+                        }
+
+                        return $state;
+                    }),
+                ColorColumn::make('txt_color')
+                    ->label('Warna Teks')
+                    ->copyable()
+                    ->copyMessage('Berhasil copy!')
+                    ->copyMessageDuration(1000)
+                    ->getStateUsing(function ($record) {
+                        $state = $record->txt_color; // Ambil nilai mentah dari database
+
+                        if (is_string($state) && str_starts_with($state, '0x')) {
+                            // Konversi dari 0xAARRGGBB ke #RRGGBB
+                            $rgb = substr($state, 4);
+                            return '#' . $rgb;
+                        }
+
+                        return $state;
                     }),
                 TextColumn::make('created_at')
                     ->label('Dibuat pada')
