@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
@@ -38,5 +39,16 @@ class Department extends Model
     public function projects(): HasManyThrough
     {
         return $this->hasManyThrough(Project::class, User::class, 'department_id', 'user_id',);
+    }
+
+    // scope
+    public function scopeSearch(Builder $query, ?string $term): void
+    {
+        if ($term) {
+            $query->where(function (Builder $q) use ($term) {
+                $q->where('department_code', 'like', '%' . $term . '%')
+                    ->orWhere('department_name', 'like', '%' . $term . '%');
+            });
+        }
     }
 }

@@ -101,7 +101,7 @@ class ProjectController extends Controller
             if ($category) {
                 $categoryId = $category->category_id;
             } else {
-                return response()->error('category tidak ditemukan', 404);
+                return response()->error('Category tidak ditemukan', 404);
             }
         }
 
