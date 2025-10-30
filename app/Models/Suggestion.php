@@ -70,4 +70,11 @@ class Suggestion extends Model
             });
         }
     }
+
+    public function scopeFilterByCategory(Builder $query, ?int $categoryId): void
+    {
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+    }
 }

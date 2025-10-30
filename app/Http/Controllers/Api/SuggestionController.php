@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Category;
 use App\Models\Department;
 use App\Models\Suggestion;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class SuggestionController extends Controller
             ->limit(3)
             ->latest()
             ->with(['user' => function ($query) {
-                $query->select('user_id', 'user_name');
+                $query->select('user_id', 'user_name', 'user_badge', 'user_image');
             }])
             ->with(['category' => function ($query) {
                 $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
@@ -53,7 +54,7 @@ class SuggestionController extends Controller
         $query = Suggestion::query()
             ->select($data)
             ->with(['user' => function ($query) {
-                $query->select('user_id', 'department_id', 'user_name');
+                $query->select('user_id', 'department_id', 'user_name', 'user_badge', 'user_image');
             }])
             ->with(['category' => function ($query) {
                 $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
@@ -74,7 +75,22 @@ class SuggestionController extends Controller
             }
         }
 
+        $categoryId = null;
+
+        if (isset($validated['category_uuid'])) {
+            $uuid = $validated['category_uuid'];
+
+            $category = Category::where('category_uuid', $uuid)->first(['category_id']);
+
+            if ($category) {
+                $categoryId = $category->category_id;
+            } else {
+                return response()->error('category tidak ditemukan', 404);
+            }
+        }
+
         $query
+            ->filterByCategory($categoryId)
             ->filterByDepartment($departmentId)
             ->search($validated['search'] ?? null);
 
@@ -92,12 +108,33 @@ class SuggestionController extends Controller
                 $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
             },
             'user' => function ($query) {
-                $query->select('user_id', 'department_id', 'user_name', 'user_badge')
+                $query->select('user_id', 'department_id', 'user_name', 'user_badge', 'user_image')
                     ->with(['department' => function ($query) {
                         $query->select('department_id', 'department_name', 'department_code');
                     }]);
             },
         ]);
+
+        $currentCategoryId = $suggestion->category_id;
+        $currentSuggestionId = $suggestion->suggestion_id;
+
+        $relatedSuggestions = Suggestion::query()
+            ->select('user_id', 'category_id', 'suggestion_uuid', 'suggestion_title')
+            ->where('category_id', $currentCategoryId)
+            ->where('suggestion_id', '!=', $currentSuggestionId)
+            ->with([
+                'category' => function ($query) {
+                    $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
+                },
+                'user' => function ($query) {
+                    $query->select('user_id', 'user_name', 'user_badge', 'user_image');
+                },
+            ])
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        $suggestion->setAttribute('related_suggestions', $relatedSuggestions);
 
         $suggestion->makeHidden([
             'suggestion_id',

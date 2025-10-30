@@ -26,6 +26,7 @@ class IndexRequest extends FormRequest
         return [
             'search' => 'nullable|string|max:255',
             'department_uuid' => 'nullable|string|max:36',
+            'category_uuid' => 'nullable|string|max:36',
             'per_page' => 'nullable|integer|min:1|max:100',
         ];
     }
@@ -34,6 +35,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'department_uuid.max' => 'Department UUID tidak valid, maksimal :max karakter.',
+            'category_uuid.max' => 'Category UUID tidak valid, maksimal :max karakter.',
             'per_page.max' => 'Nilai per halaman maksimal harus 100.',
             'per_page.integer' => 'Nilai per halaman harus angka',
             'search.max' => 'Search tidak boleh lebih dari :max',
