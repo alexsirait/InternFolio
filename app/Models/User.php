@@ -6,9 +6,11 @@ namespace App\Models;
 
 use Filament\Panel;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,9 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable //implements FilamentUser
 {
     use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
@@ -72,17 +73,17 @@ class User extends Authenticatable implements FilamentUser
         });
     }
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        $panel_id = $panel->getId();
-        if ($panel_id === 'admin') {
-            return $this->is_admin == 1;
-        } elseif ($panel_id === 'intern') {
-            return $this->is_admin == 0;
-        } else {
-            return false;
-        }
-    }
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     $panel_id = $panel->getId();
+    //     if ($panel_id === 'admin') {
+    //         return $this->is_admin == 1;
+    //     } elseif ($panel_id === 'intern') {
+    //         return $this->is_admin == 0;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     // Relationship
     public function department(): BelongsTo
@@ -103,5 +104,25 @@ class User extends Authenticatable implements FilamentUser
     public function rating(): HasOne
     {
         return $this->hasOne(Rating::class, 'user_id');
+    }
+
+    // scope
+    public function scopeSearch(Builder $query, ?string $term): void
+    {
+        if ($term) {
+            $query->where(function (Builder $q) use ($term) {
+                $q->where('user_name', 'like', '%' . $term . '%')
+                    ->orWhere('user_badge', 'like', '%' . $term . '%')
+                    ->orWhere('school', 'like', '%' . $term . '%')
+                    ->orWhere('major', 'like', '%' . $term . '%');
+            });
+        }
+    }
+
+    public function scopeFilterByDepartment(Builder $query, ?int $deptId): void
+    {
+        if ($deptId) {
+            $query->where('department_id', $deptId);
+        }
     }
 }

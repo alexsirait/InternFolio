@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
@@ -43,5 +44,15 @@ class Category extends Model
     public function suggestions(): HasMany
     {
         return $this->hasMany(Suggestion::class, 'category_id');
+    }
+
+    // scope
+    public function scopeSearch(Builder $query, ?string $term): void
+    {
+        if ($term) {
+            $query->where(function (Builder $q) use ($term) {
+                $q->where('category_name', 'like', '%' . $term . '%');
+            });
+        }
     }
 }

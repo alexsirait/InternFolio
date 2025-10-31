@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('suggestion_uuid')->unique();
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories', 'category_id')->nullOnDelete();
-            $table->string('suggestion_title');
+            $table->string('suggestion_title', 32);
             $table->text('suggestion_description');
             $table->timestamps();
         });

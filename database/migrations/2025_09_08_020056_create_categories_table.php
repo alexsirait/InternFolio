@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id('category_id');
             $table->uuid('category_uuid')->unique();
             $table->enum('category_type', ['Project', 'Suggestion']);
-            $table->string('category_name');
+            $table->string('category_name', 32);
+            $table->string('bg_color', 10);
+            $table->string('txt_color', 10);
             $table->timestamps();
         });
     }
