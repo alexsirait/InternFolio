@@ -1,7 +1,7 @@
 <x-layouts.app bodyClass="bg-gray-50">
 
     {{-- Hero --}}
-    <x-sections.hero />
+    <x-heros.hero />
 
     <div class="container mx-auto py-10">
 
@@ -28,7 +28,7 @@
         <x-section id="project-section" class="scroll-mt-28" title="Project Terbaru" subtitle="Kumpulan project intern" link="{{ route('project.index') }}" linkText="Lihat Semua Project">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 @foreach ($projects as $project)
-                <x-cards.project
+                    <x-cards.project
                         category_name="{{ $project->category->category_name }}"
                         bg_color="{{ $project->category->bg_color }}"
                         txt_color="{{ $project->category->txt_color }}"

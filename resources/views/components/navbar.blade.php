@@ -17,7 +17,7 @@
         </ul>
 
         {{-- Login Desktop --}}
-        <a href="/login" 
+        <a href="/intern" 
             class="hidden md:block px-4 py-2 bg-white text-blue-600 font-medium rounded-lg 
                    hover:bg-blue-100 transition shadow-sm">
             Login
@@ -47,7 +47,7 @@
         <a href="{{ route('suggestion.index') }}" class="block py-2 border-b border-blue-500">Tips & Saran</a>
 
         {{-- Login Mobile --}}
-        <a href="/login" 
+        <a href="/intern" 
            class="mt-2 block w-full text-center bg-white text-blue-600 py-2 rounded-lg font-medium">
             Login
         </a>

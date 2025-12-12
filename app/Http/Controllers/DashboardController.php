@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\InternService;
+use App\Services\ProjectService;
+use App\Services\SuggestionService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\InternController;
-use App\Http\Controllers\Api\ProjectController;
-use App\Http\Controllers\Api\SuggestionController;
 
 class DashboardController extends Controller
 {
     public function index(
-        InternController $internApi,
-        ProjectController $projectApi,
-        SuggestionController $suggestionApi
+        InternService $internService,
+        ProjectService $projectService,
+        SuggestionService $suggestionService,
     ) {
         // Ambil dashboard intern
-        $interns = $internApi->dashboard()->getData();
-
+        $interns = $internService->dashboard();
         // Ambil dashboard project
-        $projects = $projectApi->dashboard()->getData();
-
+        $projects = $projectService->dashboard();
         // Ambil dashboard suggestion
-        $suggestions = $suggestionApi->dashboard()->getData();
+        $suggestions = $suggestionService->dashboard();
 
         return view('home', [
-            'interns'        => $interns->data ?? [],
-            'projects'     => $projects->data ?? [],
-            'suggestions'     => $suggestions->data ?? [],
+            'interns'        => $interns,
+            'projects'     => $projects,
+            'suggestions'     => $suggestions,
         ]);
     }
 }
