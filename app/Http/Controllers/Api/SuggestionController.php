@@ -28,7 +28,7 @@ class SuggestionController extends Controller
 
         $suggestions = Cache::remember($cacheKey, $expirationInMinutes * 60, function () use ($data) {
             return Suggestion::query()
-                ->limit(3)
+                ->limit(4)
                 ->latest()
                 ->with(['user' => function ($query) {
                     $query->select('user_id', 'user_name', 'user_badge', 'user_image');
