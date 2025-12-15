@@ -5,7 +5,11 @@
     <div class="max-w-6xl mx-auto py-10">
 
         <form method="GET">
-            <x-filters.index :departments="$departments" />
+            <x-filters.index 
+                :departments="$departments"
+                :categories="$categories"
+                :showCategory="true"
+            />
         </form>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">

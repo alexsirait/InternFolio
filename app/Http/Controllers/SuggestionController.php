@@ -5,18 +5,29 @@ namespace App\Http\Controllers;
 use App\Services\MasterService;
 use App\Http\Requests\IndexRequest;
 use App\Services\SuggestionService;
+// use App\Http\Requests\MasterCategoryRequest;
 use App\Http\Requests\MasterDepartmentRequest;
 
 class SuggestionController extends Controller
 {
-    public function index(IndexRequest $request, SuggestionService $service, MasterDepartmentRequest $masterRequest, MasterService $masterService)
-    {
+    public function index(
+        IndexRequest $request,
+        SuggestionService $service,
+        MasterDepartmentRequest $masterRequest,
+        MasterService $masterService,
+        // MasterCategoryRequest $masterCategoryRequest,
+    ) {
         $validated = $request->validated();
         $suggestions = $service->index($validated);
 
         $validatedDepartment = $masterRequest->validated();
         $departments = $masterService->list_master_department($validatedDepartment);
 
-        return view('suggestions.index', compact('suggestions', 'departments'));
+        $categories = $masterService->list_master_category([
+            'type'   => 'Suggestion',
+            'search' => $validated['search'] ?? null,
+        ]);
+
+        return view('suggestions.index', compact('suggestions', 'departments', 'categories'));
     }
 }
