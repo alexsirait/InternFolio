@@ -46,6 +46,7 @@ class InternService
         $page = $validated['page'] ?? 1;
         $perPage = $validated['per_page'] ?? 10;
         $search = $validated['search'] ?? null;
+        $sort = $validated['sort'] ?? 'latest';
 
         $departmentId = null;
         if (isset($validated['department_uuid'])) {
@@ -59,6 +60,7 @@ class InternService
         $cacheKey = 'intern_index_' .
             ($departmentId ? 'dept_' . $departmentId : 'no_dept') .
             '_search_' . ($search ? md5($search) : 'no_search') .
+            '_sort_' . $sort .
             '_page_' . $page .
             '_perpage_' . $perPage;
 
@@ -77,17 +79,24 @@ class InternService
             'instagram_url',
         ];
 
-        return Cache::remember($cacheKey, $ttl, function () use ($data, $departmentId, $page, $search, $perPage) {
+        return Cache::remember($cacheKey, $ttl, function () use ($data, $departmentId, $page, $search, $perPage, $sort) {
             $query = User::query()
                 ->where('is_admin', 0)
                 ->select($data)
-                ->with(['rating' => function ($query) {
-                    $query->select('user_id', 'rating_range');
-                }])
-                ->latest();
+                ->with(['rating:user_id,rating_range']);
 
             $query->filterByDepartment($departmentId)
                 ->search($search);
+
+            match ($sort) {
+                'rating' => $query->leftJoin('ratings', 'ratings.user_id', '=', 'users.user_id')
+                    ->orderByDesc('ratings.rating_range')
+                    ->select('users.*'),
+
+                'oldest' => $query->oldest(),
+
+                default  => $query->latest(),
+            };
 
             return $query->paginate($perPage, ['*'], 'page', $page);
         });

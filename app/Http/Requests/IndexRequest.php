@@ -29,6 +29,7 @@ class IndexRequest extends FormRequest
             'category_uuid' => 'nullable|string|max:36',
             'per_page' => 'nullable|integer|min:1|max:100',
             'page' => 'nullable|integer|min:1',
+            'sort' => 'nullable|in:latest,oldest,rating',
         ];
     }
 
