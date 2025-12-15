@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Department;
 use App\Models\Suggestion;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class SuggestionService
 {
@@ -44,10 +43,6 @@ class SuggestionService
         $page = $validated['page'] ?? 1;
         $perPage = $validated['per_page'] ?? 10;
         $search = $validated['search'] ?? null;
-
-        LengthAwarePaginator::currentPageResolver(function () use ($page) {
-            return $page;
-        });
 
         $departmentId = null;
         if (isset($validated['department_uuid'])) {
@@ -87,7 +82,7 @@ class SuggestionService
         return Cache::remember(
             $cacheKey,
             $ttl,
-            function () use ($data, $departmentId, $categoryId, $search, $perPage) {
+            function () use ($data, $departmentId, $categoryId, $search, $perPage, $page) {
 
                 $query = Suggestion::query()
                     ->select($data)
@@ -103,7 +98,7 @@ class SuggestionService
                     ->filterByDepartment($departmentId)
                     ->search($search);
 
-                return $query->paginate($perPage);
+                return $query->paginate($perPage, ['*'], 'page', $page);
             }
         );
     }

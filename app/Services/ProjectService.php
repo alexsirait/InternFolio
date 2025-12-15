@@ -7,7 +7,6 @@ use App\Models\Project;
 use App\Models\Category;
 use App\Models\Department;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectService
 {
@@ -53,10 +52,6 @@ class ProjectService
         $perPage = $validated['per_page'] ?? 10;
         $search = $validated['search'] ?? null;
 
-        LengthAwarePaginator::currentPageResolver(function () use ($page) {
-            return $page;
-        });
-
         $departmentId = null;
         if (isset($validated['department_uuid'])) {
             $department = Department::where('department_uuid', $validated['department_uuid'])->first(['department_id']);
@@ -98,7 +93,7 @@ class ProjectService
         return Cache::remember(
             $cacheKey,
             $tll,
-            function () use ($data, $departmentId, $categoryId, $search, $perPage) {
+            function () use ($data, $departmentId, $categoryId, $search, $perPage, $page) {
 
                 $query = Project::query()
                     ->select($data)
@@ -117,7 +112,7 @@ class ProjectService
                     ->filterByDepartment($departmentId)
                     ->search($search);
 
-                return $query->paginate($perPage);
+                return $query->paginate($perPage, ['*'], 'page', $page);
             }
         );
     }

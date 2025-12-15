@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Department;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class InternService
 {
@@ -48,10 +47,6 @@ class InternService
         $perPage = $validated['per_page'] ?? 10;
         $search = $validated['search'] ?? null;
 
-        LengthAwarePaginator::currentPageResolver(function () use ($page) {
-            return $page;
-        });
-
         $departmentId = null;
         if (isset($validated['department_uuid'])) {
             $department = Department::where('department_uuid', $validated['department_uuid'])->first(['department_id']);
@@ -82,7 +77,7 @@ class InternService
             'instagram_url',
         ];
 
-        return Cache::remember($cacheKey, $ttl, function () use ($data, $departmentId, $search, $perPage) {
+        return Cache::remember($cacheKey, $ttl, function () use ($data, $departmentId, $page, $search, $perPage) {
             $query = User::query()
                 ->where('is_admin', 0)
                 ->select($data)
@@ -94,7 +89,7 @@ class InternService
             $query->filterByDepartment($departmentId)
                 ->search($search);
 
-            return $query->paginate($perPage);
+            return $query->paginate($perPage, ['*'], 'page', $page);
         });
     }
 
