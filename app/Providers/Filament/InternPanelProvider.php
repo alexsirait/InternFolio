@@ -2,15 +2,17 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Intern\Pages\Profile;
-use App\Http\Middleware\CheckInternRating;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Enums\Width;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
+use App\Filament\Intern\Pages\Profile;
 use Filament\Widgets\FilamentInfoWidget;
+use App\Http\Middleware\CheckInternRating;
 use Filament\Http\Middleware\Authenticate;
+use Filament\Support\Facades\FilamentView;
 use Filament\FontProviders\GoogleFontProvider;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -72,5 +74,13 @@ class InternPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function boot(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+            fn() => view('filament.intern.pages.auth.login-back-home')
+        );
     }
 }
