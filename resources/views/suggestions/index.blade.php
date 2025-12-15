@@ -2,22 +2,28 @@
 
     <x-heros.suggestion />
 
-    <div class="max-w-6xl mx-auto py-10">
+    <div class="max-w-6xl mx-auto px-6 py-10">
 
-        <form method="GET">
-            <x-filters.index 
-                :departments="$departments"
-                :categories="$categories"
-                :showCategory="true"
-            />
-        </form>
+        {{-- FILTER --}}
+        <x-filters.index 
+            :departments="$departments"
+            :categories="$categories"
+            context="suggestion"
+        />
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-            @if ($suggestions->isEmpty())
-                <div class="col-span-3 text-center py-10 text-gray-500">
-                    Tidak ada data ditemukan berdasarkan filter yang dipilih.
-                </div>
-            @else
+        {{-- DATA --}}
+        @if ($suggestions->isEmpty())
+            <div class="text-center py-20 text-gray-500">
+                <div class="text-5xl mb-4">😕</div>
+                <p class="text-lg font-medium">
+                    Tidak ada data ditemukan
+                </p>
+                <p class="mt-2 text-sm">
+                    Coba ubah filter atau kata kunci pencarian.
+                </p>
+            </div>
+        @else
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
                 @foreach ($suggestions as $suggestion)
                     <x-cards.suggestion
                         category_name="{{ $suggestion->category->category_name }}"
@@ -29,12 +35,15 @@
                         url="{{ route('suggestion.index') . '/' . $suggestion->suggestion_uuid }}"
                     />
                 @endforeach
-            @endif
-        </div>
+            </div>
 
-        <div class="mt-10">
-            {{ $suggestions->links() }}
-        </div>
+            {{-- PAGINATION --}}
+            @if ($suggestions->hasPages())
+                <div class="mt-12 flex justify-center">
+                    {{ $suggestions->withQueryString()->links() }}
+                </div>
+            @endif
+        @endif
 
     </div>
 

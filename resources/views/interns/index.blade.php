@@ -15,58 +15,11 @@
     {{-- CONTENT --}}
     <div id="intern-list" class="max-w-6xl mx-auto px-6 pb-20">
 
-        {{-- FILTER --}}
-        <div class="sticky top-20 z-40 bg-white shadow rounded-xl p-6 -mt-16">
-
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-                {{-- Search --}}
-                <input type="text"
-                       name="search"
-                       value="{{ request('search') }}"
-                       placeholder="Cari nama, sekolah, jurusan..."
-                       class="border rounded-lg px-4 py-2 w-full">
-
-                {{-- Department --}}
-                <select name="department_uuid"
-                        class="border rounded-lg px-4 py-2">
-                    <option value="">Semua Department</option>
-                    @foreach ($departments as $dept)
-                        <option value="{{ $dept->department_uuid }}"
-                            {{ request('department_uuid') == $dept->department_uuid ? 'selected' : '' }}>
-                            {{ $dept->department_name }}
-                        </option>
-                    @endforeach
-                </select>
-
-                {{-- Sort --}}
-                <select name="sort" class="border rounded-lg px-4 py-2">
-                    <option value="">Urutkan</option>
-                    <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>
-                        Terbaru
-                    </option>
-                    <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>
-                        Terlama
-                    </option>
-                    <option value="rating" {{ request('sort') === 'rating' ? 'selected' : '' }}>
-                        Rating Tertinggi
-                    </option>
-                </select>
-
-                {{-- Actions --}}
-                <div class="flex gap-2">
-                    <button class="flex-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        Filter
-                    </button>
-
-                    <a href="{{ route('intern.index') }}"
-                       class="flex-1 text-center border rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-50">
-                        Reset
-                    </a>
-                </div>
-
-            </form>
-        </div>
+        {{-- FILTER (REUSABLE COMPONENT) --}}
+        <x-filters.index
+            :departments="$departments"
+            context="intern"
+        />
 
         {{-- INFO + VIEW --}}
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-10">
@@ -95,7 +48,6 @@
 
         {{-- DATA --}}
         @if ($interns->isEmpty())
-            {{-- EMPTY STATE --}}
             <div class="text-center py-20">
                 <div class="text-5xl mb-4">😕</div>
                 <h3 class="text-lg font-semibold text-gray-800">
@@ -106,46 +58,23 @@
                 </p>
             </div>
         @else
-
-            @if (request('view', 'grid') === 'list')
-                {{-- LIST VIEW --}}
-                <div class="space-y-4 mt-6">
-                    @foreach ($interns as $intern)
-                        <x-cards.intern
-                            user_name="{{ $intern->user_name }}"
-                            position="{{ $intern->position }}"
-                            join_date="{{ $intern->join_date }}"
-                            end_date="{{ $intern->end_date }}"
-                            school="{{ $intern->school }}"
-                            major="{{ $intern->major }}"
-                            instagram_url="{{ $intern->instagram_url }}"
-                            linkedin_url="{{ $intern->linkedin_url }}"
-                            rating_range="{{ $intern->rating->rating_range }}"
-                            user_image="{{ $intern->user_image ?? null }}"
-                            url="{{ route('intern.index') . '/' . $intern->user_uuid }}"
-                        />
-                    @endforeach
-                </div>
-            @else
-                {{-- GRID VIEW --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                    @foreach ($interns as $intern)
-                        <x-cards.intern 
-                            user_name="{{ $intern->user_name }}"
-                            position="{{ $intern->position }}"
-                            join_date="{{ $intern->join_date }}"
-                            end_date="{{ $intern->end_date }}"
-                            school="{{ $intern->school }}"
-                            major="{{ $intern->major }}"
-                            instagram_url="{{ $intern->instagram_url }}"
-                            linkedin_url="{{ $intern->linkedin_url }}"
-                            rating_range="{{ $intern->rating->rating_range }}"
-                            user_image="{{ $intern->user_image ?? null }}"
-                            url="{{ route('intern.index') . '/' . $intern->user_uuid }}"
-                        />
-                    @endforeach
-                </div>
-            @endif
+            <div class="{{ request('view', 'grid') === 'list' ? 'space-y-4' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' }} mt-6">
+                @foreach ($interns as $intern)
+                    <x-cards.intern
+                        user_name="{{ $intern->user_name }}"
+                        position="{{ $intern->position }}"
+                        join_date="{{ $intern->join_date }}"
+                        end_date="{{ $intern->end_date }}"
+                        school="{{ $intern->school }}"
+                        major="{{ $intern->major }}"
+                        instagram_url="{{ $intern->instagram_url }}"
+                        linkedin_url="{{ $intern->linkedin_url }}"
+                        rating_range="{{ $intern->rating->rating_range }}"
+                        user_image="{{ $intern->user_image ?? null }}"
+                        url="{{ route('intern.index') . '/' . $intern->user_uuid }}"
+                    />
+                @endforeach
+            </div>
 
             {{-- PAGINATION --}}
             @if ($interns->hasPages())
@@ -153,7 +82,6 @@
                     {{ $interns->withQueryString()->links() }}
                 </div>
             @endif
-
         @endif
 
     </div>

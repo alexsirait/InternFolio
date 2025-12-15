@@ -51,6 +51,7 @@ class ProjectService
         $page = $validated['page'] ?? 1;
         $perPage = $validated['per_page'] ?? 10;
         $search = $validated['search'] ?? null;
+        $sort = $validated['sort'] ?? 'latest';
 
         $departmentId = null;
         if (isset($validated['department_uuid'])) {
@@ -70,12 +71,14 @@ class ProjectService
             $categoryId = $category->category_id;
         }
 
-        $cacheKey = 'project_index_' .
-            'dpt' . ($departmentId ?? 'null') .
-            '_cat' . ($categoryId ?? 'null') .
-            '_search' . ($search ? md5($search) : 'null') .
-            '_page' . $page .
-            '_perpage' . $perPage;
+        $cacheKey = 'project_index_' . md5(json_encode([
+            'department' => $departmentId,
+            'category'   => $categoryId,
+            'search'     => $search,
+            'sort'       => $sort ?? 'default',
+            'page'       => (int) $page,
+            'perPage'    => (int) $perPage,
+        ]));
 
         $tll = 60 * 60;
 
@@ -93,24 +96,27 @@ class ProjectService
         return Cache::remember(
             $cacheKey,
             $tll,
-            function () use ($data, $departmentId, $categoryId, $search, $perPage, $page) {
+            function () use ($data, $departmentId, $categoryId, $search, $perPage, $page, $sort) {
 
                 $query = Project::query()
                     ->select($data)
-                    ->with(['user' => function ($query) {
-                        $query->select('user_id', 'department_id', 'user_name', 'user_badge', 'user_image');
-                    }])
-                    ->with(['category' => function ($query) {
-                        $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
-                    }])
+                    ->with([
+                        'user:user_id,department_id,user_name,user_badge,user_image',
+                        'category:category_id,category_name,bg_color,txt_color',
+                    ])
                     ->with(['photos' => function ($query) {
                         $query->select('project_id', 'photo_url')->oldest()->limit(1);
-                    }])
-                    ->latest();
+                    }]);
 
                 $query->filterByCategory($categoryId)
                     ->filterByDepartment($departmentId)
                     ->search($search);
+
+                match ($sort) {
+                    'oldest' => $query->oldest(),
+
+                    default  => $query->latest(),
+                };
 
                 return $query->paginate($perPage, ['*'], 'page', $page);
             }

@@ -57,12 +57,13 @@ class InternService
             $departmentId = $department->department_id;
         }
 
-        $cacheKey = 'intern_index_' .
-            ($departmentId ? 'dept_' . $departmentId : 'no_dept') .
-            '_search_' . ($search ? md5($search) : 'no_search') .
-            '_sort_' . $sort .
-            '_page_' . $page .
-            '_perpage_' . $perPage;
+        $cacheKey = 'intern_index_' . md5(json_encode([
+            'department' => $departmentId,
+            'search'     => $search,
+            'sort'       => $sort ?? 'default',
+            'page'       => (int) $page,
+            'perPage'    => (int) $perPage,
+        ]));
 
         $ttl = 60 * 60;
         $data = [
