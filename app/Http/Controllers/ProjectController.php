@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\MasterService;
 use App\Services\ProjectService;
 use App\Http\Requests\IndexRequest;
-// use App\Http\Requests\MasterCategoryRequest;
 use App\Http\Requests\MasterDepartmentRequest;
 use App\Models\Project;
 
@@ -29,8 +28,8 @@ class ProjectController extends Controller
 
     public function show(ProjectService $service, Project $project)
     {
-        $projects = $service->show($project);
+        $project = $service->show($project);
 
-        return view('projects.show', compact('projects'));
+        return view('projects.show', compact('project'));
     }
 }

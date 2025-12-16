@@ -29,8 +29,8 @@ class SuggestionController extends Controller
 
     public function show(SuggestionService $service, Suggestion $suggestion)
     {
-        $suggestions = $service->show($suggestion);
+        $suggestion = $service->show($suggestion);
 
-        return view('suggestions.show', compact('suggestions'));
+        return view('suggestions.show', compact('suggestion'));
     }
 }
