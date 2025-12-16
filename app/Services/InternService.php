@@ -123,16 +123,14 @@ class InternService
                         ->with(['category' => function ($query) {
                             $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
                         }])
-                        ->latest()
-                        ->limit(3);
+                        ->latest();
                 },
                 'suggestions' => function ($query) {
                     $query->select('user_id', 'category_id', 'suggestion_uuid', 'suggestion_title')
                         ->with(['category' => function ($query) {
                             $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
                         }])
-                        ->latest()
-                        ->limit(3);
+                        ->latest();
                 },
             ]);
 
