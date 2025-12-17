@@ -41,6 +41,16 @@ class InternService
         });
     }
 
+    public function count()
+    {
+        $cacheKey = 'intern_count';
+        $ttl = 60 * 60;
+
+        return Cache::remember($cacheKey, $ttl, function () {
+            return User::query()->where('is_admin', 0)->count();
+        });
+    }
+
     public function index(array $validated)
     {
         $page = $validated['page'] ?? 1;
@@ -123,16 +133,14 @@ class InternService
                         ->with(['category' => function ($query) {
                             $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
                         }])
-                        ->latest()
-                        ->limit(3);
+                        ->latest();
                 },
                 'suggestions' => function ($query) {
                     $query->select('user_id', 'category_id', 'suggestion_uuid', 'suggestion_title')
                         ->with(['category' => function ($query) {
                             $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
                         }])
-                        ->latest()
-                        ->limit(3);
+                        ->latest();
                 },
             ]);
 

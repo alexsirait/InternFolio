@@ -46,6 +46,16 @@ class ProjectService
         });
     }
 
+    public function count()
+    {
+        $cacheKey = 'project_count';
+        $ttl = 60 * 60;
+
+        return Cache::remember($cacheKey, $ttl, function () {
+            return Project::query()->count();
+        });
+    }
+
     public function index(array $validated)
     {
         $page = $validated['page'] ?? 1;
@@ -139,7 +149,7 @@ class ProjectService
                     $query->select('category_id', 'category_name', 'bg_color', 'txt_color');
                 },
                 'user' => function ($query) {
-                    $query->select('user_id', 'department_id', 'user_name', 'user_badge', 'user_image')
+                    $query->select('user_id', 'user_uuid', 'department_id', 'user_name', 'user_badge', 'user_image')
                         ->with(['department' => function ($query) {
                             $query->select('department_id', 'department_name', 'department_code');
                         }]);

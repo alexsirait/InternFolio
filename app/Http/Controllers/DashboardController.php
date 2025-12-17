@@ -21,10 +21,18 @@ class DashboardController extends Controller
         // Ambil dashboard suggestion
         $suggestions = $suggestionService->dashboard();
 
+        // Count untuk statistik
+        $totalInterns = $internService->count();
+        $totalProjects = $projectService->count();
+        $totalSuggestions = $suggestionService->count();
+
         return view('home', [
-            'interns'        => $interns,
-            'projects'     => $projects,
-            'suggestions'     => $suggestions,
+            'interns'           => $interns,
+            'projects'          => $projects,
+            'suggestions'       => $suggestions,
+            'totalInterns'      => $totalInterns,
+            'totalProjects'     => $totalProjects,
+            'totalSuggestions'  => $totalSuggestions,
         ]);
     }
 }

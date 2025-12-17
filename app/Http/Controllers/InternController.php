@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\MasterDepartmentRequest;
+use App\Models\User;
 use App\Services\InternService;
 use App\Services\MasterService;
 
@@ -18,5 +19,12 @@ class InternController extends Controller
         $departments = $masterService->list_master_department($validatedDepartment);
 
         return view('interns.index', compact('interns', 'departments'));
+    }
+
+    public function show(InternService $service, User $user)
+    {
+        $intern = $service->show($user);
+
+        return view('interns.show', compact('intern'));
     }
 }
