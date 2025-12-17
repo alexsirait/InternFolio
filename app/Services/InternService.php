@@ -41,6 +41,16 @@ class InternService
         });
     }
 
+    public function count()
+    {
+        $cacheKey = 'intern_count';
+        $ttl = 60 * 60;
+
+        return Cache::remember($cacheKey, $ttl, function () {
+            return User::query()->where('is_admin', 0)->count();
+        });
+    }
+
     public function index(array $validated)
     {
         $page = $validated['page'] ?? 1;

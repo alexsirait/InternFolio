@@ -38,6 +38,16 @@ class SuggestionService
         });
     }
 
+    public function count()
+    {
+        $cacheKey = 'suggestion_count';
+        $ttl = 60 * 60;
+
+        return Cache::remember($cacheKey, $ttl, function () {
+            return Suggestion::query()->count();
+        });
+    }
+
     public function index(array $validated)
     {
         $page = $validated['page'] ?? 1;

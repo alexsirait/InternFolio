@@ -46,6 +46,16 @@ class ProjectService
         });
     }
 
+    public function count()
+    {
+        $cacheKey = 'project_count';
+        $ttl = 60 * 60;
+
+        return Cache::remember($cacheKey, $ttl, function () {
+            return Project::query()->count();
+        });
+    }
+
     public function index(array $validated)
     {
         $page = $validated['page'] ?? 1;
