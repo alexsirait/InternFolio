@@ -171,4 +171,34 @@
             chevron.style.transform = 'rotate(0deg)';
         }
     }
+
+    // Auto-scroll to content section after filtering
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasFilters = urlParams.has('search') || urlParams.has('department_uuid') || 
+                          urlParams.has('category_uuid') || urlParams.has('sort');
+        
+        if (hasFilters) {
+            // Determine context and scroll to appropriate section
+            const context = '{{ $context }}';
+            let sectionId = '';
+            
+            if (context === 'intern') {
+                sectionId = 'intern-list';
+            } else if (context === 'project') {
+                sectionId = 'project-list';
+            } else if (context === 'suggestion') {
+                sectionId = 'suggestion-list';
+            }
+            
+            if (sectionId) {
+                setTimeout(() => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 100);
+            }
+        }
+    });
 </script>

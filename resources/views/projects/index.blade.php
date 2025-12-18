@@ -3,14 +3,19 @@
     {{-- Enhanced HERO --}}
     <x-heros.project :totalProjects="$projects->total()" />
 
-    <div id="project-list" class="max-w-6xl mx-auto px-6 py-10">
+    <div id="project-list" class="w-full py-10">
 
-        {{-- FILTER --}}
-        <x-filters.index 
-            :departments="$departments"
-            :categories="$categories"
-            context="project"
-        />
+        {{-- FILTER (CENTERED) --}}
+        <div class="max-w-6xl mx-auto px-6">
+            <x-filters.index 
+                :departments="$departments"
+                :categories="$categories"
+                context="project"
+            />
+        </div>
+
+        {{-- CONTENT (FULL WIDTH) --}}
+        <div class="px-6 lg:px-12 xl:px-16">
 
         {{-- INFO --}}
         <div class="flex items-center gap-3 mt-10 mb-6">
@@ -56,7 +61,7 @@
                 </div>
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($projects as $project)
                     <x-cards.project.index
                         category_name="{{ $project->category->category_name }}"
@@ -80,6 +85,8 @@
                 </div>
             @endif
         @endif
+
+        </div> {{-- End CONTENT (FULL WIDTH) --}}
 
     </div>
 
