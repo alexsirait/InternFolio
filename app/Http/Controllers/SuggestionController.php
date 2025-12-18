@@ -8,6 +8,7 @@ use App\Services\SuggestionService;
 // use App\Http\Requests\MasterCategoryRequest;
 use App\Http\Requests\MasterDepartmentRequest;
 use App\Models\Suggestion;
+use App\Models\ShortLink;
 
 class SuggestionController extends Controller
 {
@@ -29,8 +30,17 @@ class SuggestionController extends Controller
 
     public function show(SuggestionService $service, Suggestion $suggestion)
     {
-        $suggestion = $service->show($suggestion);
+        $suggestionData = $service->show($suggestion);
+        
+        // Generate or get existing shortlink
+        $shortLink = ShortLink::createForModel(
+            $suggestion,
+            route('suggestion.show', $suggestion->suggestion_uuid)
+        );
 
-        return view('suggestions.show', compact('suggestion'));
+        return view('suggestions.show', [
+            'suggestion' => $suggestionData,
+            'shortLink' => $shortLink
+        ]);
     }
 }
