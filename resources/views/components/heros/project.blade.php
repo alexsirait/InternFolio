@@ -2,11 +2,11 @@
     'totalProjects' => 0,
 ])
 
-<div class="relative bg-gradient-to-br from-slate-800 via-violet-900 to-slate-900 py-20 md:py-28 overflow-hidden">
+<div class="relative bg-gradient-to-br from-slate-700 via-indigo-800 to-slate-900 py-20 md:py-28 overflow-hidden">
     
     {{-- Background Pattern --}}
     <div class="absolute inset-0 opacity-5">
-        <div class="absolute top-10 right-10 w-72 h-72 bg-violet-500 rounded-full blur-3xl"></div>
+        <div class="absolute top-10 right-10 w-72 h-72 bg-indigo-400 rounded-full blur-3xl"></div>
         <div class="absolute bottom-10 left-10 w-96 h-96 bg-slate-400 rounded-full blur-3xl"></div>
     </div>
 
@@ -27,7 +27,7 @@
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                Karya <span class="text-violet-300">Luar Biasa</span> dari Para Intern
+                Karya <span class="text-indigo-300">Luar Biasa</span> dari Para Intern
             </h1>
 
             <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed max-w-3xl mx-auto">
@@ -56,7 +56,7 @@
             {{-- CTA Buttons --}}
             <div class="flex flex-wrap gap-4 justify-center">
                 <a href="#project-list"
-                    class="px-6 py-3 rounded-lg bg-white text-violet-900 font-semibold shadow-xl hover:shadow-2xl hover:bg-violet-50 transition transform hover:-translate-y-1">
+                    class="px-6 py-3 rounded-lg bg-white text-indigo-900 font-semibold shadow-xl hover:shadow-2xl hover:bg-indigo-50 transition transform hover:-translate-y-1">
                     🚀 Explore Projects
                 </a>
                 <a href="{{ route('dashboard.index') }}"
