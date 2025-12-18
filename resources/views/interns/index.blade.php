@@ -80,7 +80,7 @@
         @else
             <div class="{{ request('view', 'grid') === 'list' ? 'space-y-4' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' }} mt-6">
                 @foreach ($interns as $intern)
-                    <x-cards.intern
+                    <x-cards.intern.index
                         user_name="{{ $intern->user_name }}"
                         position="{{ $intern->position }}"
                         join_date="{{ $intern->join_date }}"

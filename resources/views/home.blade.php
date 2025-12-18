@@ -1,7 +1,7 @@
 <x-layouts.app bodyClass="bg-gray-50">
 
     {{-- Enhanced Hero with Statistics --}}
-    <x-heros.hero 
+    <x-heros.home 
         :totalInterns="$totalInterns ?? 0"
         :totalProjects="$totalProjects ?? 0"
         :totalSuggestions="$totalSuggestions ?? 0"
@@ -23,7 +23,7 @@
         >
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($interns as $intern)
-                    <x-cards.home-intern-card 
+                    <x-cards.intern.home 
                         user_name="{{ $intern->user_name }}"
                         position="{{ $intern->position }}"
                         join_date="{{ $intern->join_date }}"
@@ -49,7 +49,7 @@
         >
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($projects as $project)
-                    <x-cards.home-project-card
+                    <x-cards.project.home
                         category_name="{{ $project->category->category_name }}"
                         bg_color="{{ $project->category->bg_color }}"
                         txt_color="{{ $project->category->txt_color }}"
@@ -75,7 +75,7 @@
         >
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach ($suggestions as $suggestion)
-                    <x-cards.home-suggestion-card
+                    <x-cards.suggestion.home
                         category_name="{{ $suggestion->category->category_name }}"
                         bg_color="{{ $suggestion->category->bg_color }}"
                         txt_color="{{ $suggestion->category->txt_color }}"

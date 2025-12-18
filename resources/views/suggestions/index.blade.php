@@ -58,7 +58,7 @@
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($suggestions as $suggestion)
-                    <x-cards.suggestion
+                    <x-cards.suggestion.index
                         category_name="{{ $suggestion->category->category_name }}"
                         bg_color="{{ $suggestion->category->bg_color }}"
                         txt_color="{{ $suggestion->category->txt_color }}"

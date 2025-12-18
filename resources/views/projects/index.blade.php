@@ -58,7 +58,7 @@
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($projects as $project)
-                    <x-cards.project
+                    <x-cards.project.index
                         category_name="{{ $project->category->category_name }}"
                         bg_color="{{ $project->category->bg_color }}"
                         txt_color="{{ $project->category->txt_color }}"
