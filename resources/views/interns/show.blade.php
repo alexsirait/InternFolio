@@ -159,7 +159,7 @@
                             </span>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-4 {{ count($intern['projects']) > 2 ? 'max-h-[220px] overflow-y-auto pr-2' : '' }}">
                             @foreach ($intern['projects'] as $project)
                                 <a href="{{ route('project.show', $project['project_uuid']) }}"
                                    class="block p-5 border-2 border-gray-100 rounded-xl hover:border-purple-300 hover:bg-purple-50 hover:shadow-md transition-all group">
@@ -202,7 +202,7 @@
                             </span>
                         </div>
 
-                        <div class="space-y-3">
+                        <div class="space-y-3 {{ count($intern['suggestions']) > 3 ? 'max-h-[215px] overflow-y-auto pr-2' : '' }}">
                             @foreach ($intern['suggestions'] as $suggestion)
                                 <a href="{{ route('suggestion.show', $suggestion['suggestion_uuid']) }}"
                                    class="block p-4 border-2 border-gray-100 rounded-xl hover:border-green-300 hover:bg-green-50 hover:shadow-md transition-all group">
@@ -261,7 +261,7 @@
                                 $remainingDays = $totalDays - ($months * 30); // Sisa hari
                             @endphp
                             <p class="text-sm font-medium text-gray-700">
-                                {{ $months }} Bulan{{ $remainingDays > 0 ? ', ' . $remainingDays . ' Hari' : '' }}
+                                {{ $months }} Bulan{{ $remainingDays > 0 ? ' ' . $remainingDays . ' Hari' : '' }}
                             </p>
                         </div>
                     </div>
