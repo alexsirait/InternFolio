@@ -16,8 +16,12 @@ return new class extends Migration
             $table->string('code', 8)->unique()->index();
             $table->text('original_url');
             $table->uuidMorphs('linkable'); // Creates linkable_type and linkable_id (UUID)
+            $table->unsignedBigInteger('user_id')->nullable(); // Owner of the content
             $table->unsignedBigInteger('clicks')->default(0);
             $table->timestamps();
+
+            // Foreign key
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 
