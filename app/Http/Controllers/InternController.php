@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\MasterDepartmentRequest;
 use App\Models\User;
+use App\Models\ShortLink;
 use App\Services\InternService;
 use App\Services\MasterService;
 
@@ -15,8 +16,8 @@ class InternController extends Controller
         $validated = $request->validated();
         $interns = $service->index($validated);
 
-        $validatedDepartment = $masterRequest->validated();
-        $departments = $masterService->list_master_department($validatedDepartment);
+        // Load all departments for dropdown (ignore search parameter)
+        $departments = $masterService->list_master_department([]);
 
         return view('interns.index', compact('interns', 'departments'));
     }
@@ -25,6 +26,12 @@ class InternController extends Controller
     {
         $intern = $service->show($user);
 
-        return view('interns.show', compact('intern'));
+        // Generate or get existing shortlink
+        $shortLink = ShortLink::createForModel(
+            $user,
+            route('intern.show', $user->user_uuid)
+        );
+
+        return view('interns.show', compact('intern', 'shortLink'));
     }
 }

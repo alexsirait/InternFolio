@@ -1,24 +1,34 @@
 <x-layouts.app bodyClass="bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-8">
 
-        {{-- Breadcrumb --}}
-        <nav class="flex items-center gap-2 text-sm mb-6" aria-label="Breadcrumb">
-            <a href="{{ route('dashboard.index') }}" class="text-gray-500 hover:text-blue-600 transition">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        {{-- Breadcrumb & Share --}}
+        <div class="flex items-center justify-between mb-6">
+            <nav class="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+                <a href="{{ route('dashboard.index') }}" class="text-gray-500 hover:text-blue-600 transition">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
-            </a>
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <a href="{{ route('intern.index') }}" class="text-gray-500 hover:text-blue-600 transition">
-                Profil Alumni
-            </a>
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span class="text-gray-900 font-medium">{{ $intern['user_name'] }}</span>
-        </nav>
+                <a href="{{ route('intern.index') }}" class="text-gray-500 hover:text-blue-600 transition">
+                    Profil Alumni
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-gray-900 font-medium">{{ $intern['user_name'] }}</span>
+            </nav>
+            
+            {{-- Share Button --}}
+            <x-share-button 
+                :shortLink="$shortLink"
+                :title="$intern['user_name']"
+                :description="$intern['position']"
+                color="blue"
+            />
+        </div>
 
         {{-- Back Button --}}
         <a href="{{ route('intern.index') }}"
@@ -42,7 +52,7 @@
                             alt="{{ $intern['user_name'] }}"
                         >
                     </div>
-                    <div class="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
+                    <div class="absolute -bottom-2 -right-2 bg-indigo-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
                         <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                         </svg>
@@ -130,85 +140,121 @@
                 </div>
 
                 {{-- Projects Section --}}
-                @if (!empty($intern['projects']))
-                    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-purple-100 rounded-lg">
-                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h2 class="text-xl font-bold text-gray-900">Project yang Dikerjakan</h2>
-                                    <p class="text-xs text-gray-500">Karya selama magang</p>
-                                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-indigo-100 rounded-lg">
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
                             </div>
-                            <span class="bg-purple-100 text-purple-700 text-sm font-bold px-4 py-2 rounded-lg">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">Project yang Dikerjakan</h2>
+                                <p class="text-xs text-gray-500">Karya selama magang</p>
+                            </div>
+                        </div>
+                        @if (count($intern['projects']) > 0)
+                            <span class="bg-indigo-100 text-indigo-700 text-sm font-bold px-4 py-2 rounded-lg">
                                 {{ count($intern['projects']) }} Project
                             </span>
-                        </div>
+                        @endif
+                    </div>
 
-                        <div class="space-y-4">
+                    @if (count($intern['projects']) > 0)
+                        <div class="space-y-4 {{ count($intern['projects']) > 2 ? 'max-h-[220px] overflow-y-auto pr-2' : '' }}">
                             @foreach ($intern['projects'] as $project)
                                 <a href="{{ route('project.show', $project['project_uuid']) }}"
-                                   class="block p-5 border-2 border-gray-100 rounded-xl hover:border-purple-300 hover:bg-purple-50 hover:shadow-md transition-all group">
+                                   class="block p-5 border-2 border-gray-100 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md transition-all group">
                                     <div class="flex items-start justify-between gap-4">
                                         <div class="flex-1 min-w-0">
-                                            <h3 class="font-bold text-gray-900 group-hover:text-purple-700 mb-2 transition-colors">
+                                            <h3 class="font-bold text-gray-900 group-hover:text-indigo-700 mb-2 transition-colors">
                                                 {{ $project['project_title'] }}
                                             </h3>
                                             <p class="text-sm text-gray-600 leading-relaxed line-clamp-2 break-words overflow-wrap-anywhere">
                                                 {{ $project['project_description'] }}
                                             </p>
                                         </div>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-indigo-600 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>
                                 </a>
                             @endforeach
                         </div>
-                    </div>
-                @endif
-
-                {{-- Suggestions Section --}}
-                @if (!empty($intern['suggestions']))
-                    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
-                        <div class="flex items-center justify-between mb-5">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2 bg-green-100 rounded-lg">
-                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    @else
+                        {{-- Empty State for Projects --}}
+                        <div class="flex flex-col items-center justify-center py-12 px-6">
+                            <div class="relative mb-6">
+                                <div class="absolute inset-0 bg-indigo-100 rounded-full blur-xl opacity-50"></div>
+                                <div class="relative p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-full">
+                                    <svg class="w-16 h-16 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </div>
-                                <div>
-                                    <h2 class="text-xl font-bold text-gray-900">Tips & Saran</h2>
-                                    <p class="text-xs text-gray-500">Kontribusi knowledge</p>
-                                </div>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-sm font-bold px-4 py-2 rounded-lg">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Project</h3>
+                            <p class="text-sm text-gray-500 text-center max-w-md">
+                                Alumni ini belum menambahkan project yang dikerjakan selama masa magang.
+                            </p>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Suggestions Section --}}
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-cyan-100 rounded-lg">
+                                <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">Tips & Saran</h2>
+                                <p class="text-xs text-gray-500">Kontribusi knowledge</p>
+                            </div>
+                        </div>
+                        @if (count($intern['suggestions']) > 0)
+                            <span class="bg-cyan-100 text-cyan-700 text-sm font-bold px-4 py-2 rounded-lg">
                                 {{ count($intern['suggestions']) }} Tips
                             </span>
-                        </div>
+                        @endif
+                    </div>
 
-                        <div class="space-y-3">
+                    @if (count($intern['suggestions']) > 0)
+                        <div class="space-y-3 {{ count($intern['suggestions']) > 3 ? 'max-h-[215px] overflow-y-auto pr-2' : '' }}">
                             @foreach ($intern['suggestions'] as $suggestion)
                                 <a href="{{ route('suggestion.show', $suggestion['suggestion_uuid']) }}"
-                                   class="block p-4 border-2 border-gray-100 rounded-xl hover:border-green-300 hover:bg-green-50 hover:shadow-md transition-all group">
+                                   class="block p-4 border-2 border-gray-100 rounded-xl hover:border-cyan-300 hover:bg-cyan-50 hover:shadow-md transition-all group">
                                     <div class="flex items-start justify-between gap-3">
-                                        <h3 class="font-semibold text-gray-900 group-hover:text-green-700 transition-colors flex-1 line-clamp-2">
+                                        <h3 class="font-semibold text-gray-900 group-hover:text-cyan-700 transition-colors flex-1 line-clamp-2">
                                             {{ $suggestion['suggestion_title'] }}
                                         </h3>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-cyan-600 transition-colors flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>
                                 </a>
                             @endforeach
                         </div>
-                    </div>
-                @endif
+                    @else
+                        {{-- Empty State for Suggestions --}}
+                        <div class="flex flex-col items-center justify-center py-12 px-6">
+                            <div class="relative mb-6">
+                                <div class="absolute inset-0 bg-cyan-100 rounded-full blur-xl opacity-50"></div>
+                                <div class="relative p-6 bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-full">
+                                    <svg class="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Belum Ada Tips & Saran</h3>
+                            <p class="text-sm text-gray-500 text-center max-w-md">
+                                Alumni ini belum membagikan tips atau saran untuk junior magang.
+                            </p>
+                        </div>
+                    @endif
+                </div>
 
             </div>
 
@@ -251,7 +297,7 @@
                                 $remainingDays = $totalDays - ($months * 30); // Sisa hari
                             @endphp
                             <p class="text-sm font-medium text-gray-700">
-                                {{ $months }} Bulan{{ $remainingDays > 0 ? ', ' . $remainingDays . ' Hari' : '' }}
+                                {{ $months }} Bulan{{ $remainingDays > 0 ? ' ' . $remainingDays . ' Hari' : '' }}
                             </p>
                         </div>
                     </div>
@@ -272,13 +318,13 @@
                     </div>
 
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-200">
+                        <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-lg border border-indigo-200">
                             <span class="text-sm text-gray-700">Total Project</span>
-                            <span class="text-2xl font-bold text-purple-600">{{ count($intern['projects'] ?? []) }}</span>
+                            <span class="text-2xl font-bold text-indigo-600">{{ count($intern['projects'] ?? []) }}</span>
                         </div>
-                        <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
+                        <div class="flex items-center justify-between p-4 bg-cyan-50 rounded-lg border border-cyan-200">
                             <span class="text-sm text-gray-700">Total Tips</span>
-                            <span class="text-2xl font-bold text-green-600">{{ count($intern['suggestions'] ?? []) }}</span>
+                            <span class="text-2xl font-bold text-cyan-600">{{ count($intern['suggestions'] ?? []) }}</span>
                         </div>
                     </div>
                 </div>

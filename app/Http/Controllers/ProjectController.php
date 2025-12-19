@@ -7,6 +7,7 @@ use App\Services\ProjectService;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\MasterDepartmentRequest;
 use App\Models\Project;
+use App\Models\ShortLink;
 
 class ProjectController extends Controller
 {
@@ -15,12 +16,10 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $projects = $service->index($validated);
 
-        $validatedDepartment = $masterDepartmentRequest->validated();
-        $departments = $masterService->list_master_department($validatedDepartment);
-
+        // Load all departments and categories for dropdown (ignore search parameter)
+        $departments = $masterService->list_master_department([]);
         $categories = $masterService->list_master_category([
-            'type'   => 'Project',
-            'search' => $validated['search'] ?? null,
+            'type' => 'Project',
         ]);
 
         return view('projects.index', compact('projects', 'departments', 'categories'));
@@ -28,8 +27,17 @@ class ProjectController extends Controller
 
     public function show(ProjectService $service, Project $project)
     {
-        $project = $service->show($project);
+        $projectData = $service->show($project);
 
-        return view('projects.show', compact('project'));
+        // Generate or get existing shortlink
+        $shortLink = ShortLink::createForModel(
+            $project,
+            route('project.show', $project->project_uuid)
+        );
+
+        return view('projects.show', [
+            'project' => $projectData,
+            'shortLink' => $shortLink
+        ]);
     }
 }

@@ -2,11 +2,11 @@
     'totalSuggestions' => 0,
 ])
 
-<div class="relative bg-gradient-to-br from-slate-700 via-emerald-800 to-slate-900 py-20 md:py-28 overflow-hidden">
+<div class="relative bg-gradient-to-br from-slate-700 via-cyan-800 to-slate-900 py-20 md:py-28 overflow-hidden">
     
     {{-- Background Pattern --}}
     <div class="absolute inset-0 opacity-5">
-        <div class="absolute top-10 left-10 w-72 h-72 bg-emerald-500 rounded-full blur-3xl"></div>
+        <div class="absolute top-10 left-10 w-72 h-72 bg-cyan-400 rounded-full blur-3xl"></div>
         <div class="absolute bottom-10 right-10 w-96 h-96 bg-slate-400 rounded-full blur-3xl"></div>
     </div>
 
@@ -28,7 +28,7 @@
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                Belajar dari <span class="text-emerald-300">Pengalaman Nyata</span>
+                Belajar dari <span class="text-cyan-300">Pengalaman Nyata</span>
             </h1>
 
             <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed max-w-3xl mx-auto">
@@ -57,7 +57,7 @@
             {{-- CTA Buttons --}}
             <div class="flex flex-wrap gap-4 justify-center">
                 <a href="#suggestion-list"
-                    class="px-6 py-3 rounded-lg bg-white text-emerald-900 font-semibold shadow-xl hover:shadow-2xl hover:bg-emerald-50 transition transform hover:-translate-y-1">
+                    class="px-6 py-3 rounded-lg bg-white text-cyan-900 font-semibold shadow-xl hover:shadow-2xl hover:bg-cyan-50 transition transform hover:-translate-y-1">
                     📖 Baca Tips
                 </a>
                 <a href="{{ route('dashboard.index') }}"

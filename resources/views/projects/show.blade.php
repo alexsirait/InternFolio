@@ -1,29 +1,39 @@
-<x-layouts.app bodyClass="bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-100">
+<x-layouts.app bodyClass="bg-gradient-to-br from-gray-50 via-cyan-50/30 to-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-8">
 
-        {{-- Breadcrumb --}}
-        <nav class="flex items-center gap-2 text-sm mb-6" aria-label="Breadcrumb">
-            <a href="{{ route('dashboard.index') }}" class="text-gray-500 hover:text-blue-600 transition">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        {{-- Breadcrumb & Share --}}
+        <div class="flex items-center justify-between mb-6">
+            <nav class="flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+                <a href="{{ route('dashboard.index') }}" class="text-gray-500 hover:text-blue-600 transition">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
-            </a>
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <a href="{{ route('project.index') }}" class="text-gray-500 hover:text-purple-600 transition">
-                Project
-            </a>
-            <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-            <span class="text-gray-900 font-medium">Detail</span>
-        </nav>
+                <a href="{{ route('project.index') }}" class="text-gray-500 hover:text-indigo-600 transition">
+                    Project
+                </a>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-gray-900 font-medium">Detail</span>
+            </nav>
+            
+            {{-- Share Button --}}
+            <x-share-button 
+                :shortLink="$shortLink"
+                :title="$project['project_title']"
+                :description="$project['category']['category_name']"
+                color="indigo"
+            />
+        </div>
 
         {{-- Back Button --}}
         <a href="{{ route('project.index') }}"
             class="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-200 rounded-lg
-                   text-gray-700 hover:bg-gray-50 hover:border-purple-300 transition-all group shadow-sm mb-6">
+                   text-gray-700 hover:bg-gray-50 hover:border-indigo-300 transition-all group shadow-sm mb-6">
             <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -45,11 +55,11 @@
                                 {{ $project['category']['category_name'] }}
                             </span>
 
-                            <div class="flex items-center gap-2 bg-purple-50 px-4 py-2 rounded-lg border-2 border-purple-200">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="flex items-center gap-2 bg-indigo-50 px-4 py-2 rounded-lg border-2 border-indigo-200">
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                <span class="text-sm font-bold text-purple-700">
+                                <span class="text-sm font-bold text-indigo-700">
                                     {{ $project['project_duration'] }} Bulan
                                 </span>
                             </div>
@@ -69,8 +79,8 @@
                 <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center gap-3">
-                            <div class="p-2 bg-purple-100 rounded-lg">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="p-2 bg-indigo-100 rounded-lg">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                             </div>
@@ -79,7 +89,7 @@
                                 <p class="text-sm text-gray-500">Klik untuk memperbesar gambar</p>
                             </div>
                         </div>
-                        <span class="bg-purple-100 text-purple-700 text-sm font-bold px-4 py-2 rounded-lg">
+                        <span class="bg-indigo-100 text-indigo-700 text-sm font-bold px-4 py-2 rounded-lg">
                             {{ $project['photos_count'] }} Foto
                         </span>
                     </div>
@@ -88,7 +98,7 @@
                         @foreach ($project['photos'] as $photo)
                             <button 
                                 onclick="openLightbox('{{ asset('storage/' . $photo['photo_url']) }}')"
-                                class="group relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 hover:border-purple-400 hover:shadow-lg transition-all cursor-pointer">
+                                class="group relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 hover:border-indigo-400 hover:shadow-lg transition-all cursor-pointer">
                                 <img
                                     src="{{ asset('storage/' . $photo['photo_url']) }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -139,27 +149,27 @@
             <div class="space-y-6">
 
                 {{-- Developer Info --}}
-                <div class="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 rounded-2xl shadow-lg p-6 border-2 border-purple-200/50">
+                <div class="bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 rounded-2xl shadow-lg p-6 border-2 border-indigo-200/50">
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="p-2 bg-purple-100 rounded-lg">
-                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 bg-indigo-100 rounded-lg">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                         </div>
                         <h2 class="text-lg font-bold text-gray-900">Developer</h2>
                     </div>
 
-                    <div class="bg-white rounded-xl p-5 shadow-sm border border-purple-100">
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-indigo-100">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="relative">
-                                <div class="p-1 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl">
+                                <div class="p-1 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl">
                                     <img
                                         src="{{ asset('storage/' . $project['user']['user_image']) }}"
                                         class="w-16 h-16 rounded-lg object-cover ring-2 ring-white"
                                         alt="{{ $project['user']['user_name'] }}"
                                     >
                                 </div>
-                                <div class="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white"></div>
+                                <div class="absolute -bottom-1 -right-1 bg-indigo-500 w-5 h-5 rounded-full border-2 border-white"></div>
                             </div>
 
                             <div class="flex-1">
@@ -176,7 +186,7 @@
                         </div>
 
                         <a href="{{ route('intern.show', $project['user']['user_uuid']) }}"
-                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-bold rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-sm font-bold rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                             Lihat Profil
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -189,8 +199,8 @@
                 <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-3">
-                            <div class="p-2 bg-green-100 rounded-lg">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="p-2 bg-cyan-100 rounded-lg">
+                                <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                                 </svg>
                             </div>
@@ -199,14 +209,14 @@
                                 <p class="text-xs text-gray-500">Teknologi yang digunakan</p>
                             </div>
                         </div>
-                        <span class="bg-green-100 text-green-700 text-sm font-bold px-3 py-1.5 rounded-lg">
+                        <span class="bg-cyan-100 text-cyan-700 text-sm font-bold px-3 py-1.5 rounded-lg">
                             {{ count(explode(',', $project['project_technology'])) }}
                         </span>
                     </div>
 
                     <div class="flex flex-wrap gap-2">
                         @foreach (explode(',', $project['project_technology']) as $tech)
-                            <span class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-2 border-green-200 hover:shadow-md hover:scale-105 transition-all">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-cyan-50 to-cyan-100 text-cyan-700 border-2 border-cyan-200 hover:shadow-md hover:scale-105 transition-all">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                 </svg>
