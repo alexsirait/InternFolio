@@ -16,8 +16,8 @@ class InternController extends Controller
         $validated = $request->validated();
         $interns = $service->index($validated);
 
-        $validatedDepartment = $masterRequest->validated();
-        $departments = $masterService->list_master_department($validatedDepartment);
+        // Load all departments for dropdown (ignore search parameter)
+        $departments = $masterService->list_master_department([]);
 
         return view('interns.index', compact('interns', 'departments'));
     }
@@ -25,7 +25,7 @@ class InternController extends Controller
     public function show(InternService $service, User $user)
     {
         $intern = $service->show($user);
-        
+
         // Generate or get existing shortlink
         $shortLink = ShortLink::createForModel(
             $user,

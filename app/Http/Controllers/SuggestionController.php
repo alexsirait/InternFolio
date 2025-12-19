@@ -17,12 +17,10 @@ class SuggestionController extends Controller
         $validated = $request->validated();
         $suggestions = $service->index($validated);
 
-        $validatedDepartment = $masterRequest->validated();
-        $departments = $masterService->list_master_department($validatedDepartment);
-
+        // Load all departments and categories for dropdown (ignore search parameter)
+        $departments = $masterService->list_master_department([]);
         $categories = $masterService->list_master_category([
-            'type'   => 'Suggestion',
-            'search' => $validated['search'] ?? null,
+            'type' => 'Suggestion',
         ]);
 
         return view('suggestions.index', compact('suggestions', 'departments', 'categories'));
@@ -31,7 +29,7 @@ class SuggestionController extends Controller
     public function show(SuggestionService $service, Suggestion $suggestion)
     {
         $suggestionData = $service->show($suggestion);
-        
+
         // Generate or get existing shortlink
         $shortLink = ShortLink::createForModel(
             $suggestion,
